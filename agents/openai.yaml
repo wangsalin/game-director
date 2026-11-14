@@ -1,0 +1,6 @@
+interface:
+  display_name: "GAME DIRECTOR"
+  short_description: "Interactive game producer: idea to Codex-ready game package"
+  default_prompt: "Help me plan a game. Interview me one question at a time, then build a game production package for my target platform."
+policy:
+  allow_implicit_invocation: true
