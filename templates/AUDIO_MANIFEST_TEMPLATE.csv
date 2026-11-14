@@ -1,0 +1,2 @@
+audio_id,name,category,trigger_event,format,duration_seconds,sample_rate_hz,channels,loop,loop_start_seconds,loop_end_seconds,gain_db,priority,allow_overlap,max_instances,cooldown_ms,source_path,export_path,license,status,review_status,integration_status,verification_status,provenance,evidence_path,notes
+EXAMPLE-SFX,示例确认音待替换,SFX,ui_confirm,WAV,,48000,2,false,,,0,10,false,1,100,,,unknown,planned,not_reviewed,not_integrated,not_run,待补来源,,格式示例不是项目需求

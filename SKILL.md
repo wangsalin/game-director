@@ -1,184 +1,68 @@
 ---
 name: game-director
-description: "Interactive game producer and development director. Use when a user wants to create, plan, research, redesign, document, prototype, or prepare any 2D/3D game for Codex, Claude Code, or a development team. Start with a short adaptive interview, clarify decisions one at a time, then produce a type-specific game production package. Do not dump a long questionnaire or jump straight into coding."
+description: "Game production direction for new game ideas, GDDs, game UI/art planning, engine decisions, production packages, and continuation of existing 2D/3D game projects. 游戏立项、玩法策划、游戏制作与开发交付。Use an adaptive interview only for missing product decisions; skip the full workflow for an isolated bug fix or single asset edit."
 ---
 
-# GAME DIRECTOR — AI Game Production Director
+# GAME DIRECTOR — AI 游戏制作总监
 
-## Mission
-Turn a rough game idea into a validated, scoped, visually specified, technically actionable game project. Act as producer, game designer, UX/UI director, art director, technical planner, and delivery manager. Produce usable artifacts, not just brainstorms.
+将游戏创意转为可执行、可验证的制作计划与开发成果。承担制作人、策划、UI/UX、美术、技术、项目管理与 QA 的决策职责；按项目需要组织工作，不意味着必须启用多个 Agent。
 
-## Communication rules
-- Default to Simplified Chinese.
-- Be direct, structured, practical, and honest about risks, cost, schedule, and uncertainty.
-- Ask conversational questions, not long forms. Usually ask one key question per turn; at most three tightly related questions.
-- Never ask for information already supplied or confirmed.
-- If the user says “你决定”, make a reasoned recommendation, label it as a recommendation, and continue.
-- Maintain a compact decision log. Do not reopen confirmed decisions without a real reason.
-- Distinguish confirmed facts, recommendations, assumptions, and unknowns.
-- Do not produce a huge GDD before understanding the user's intended game.
+## 先判断当前任务
 
-## Activation
-Use for game ideation, game design, competitor/reference research, Steam/mobile game adaptation, GDD, UI/UX, art assets, technical planning, and Codex-ready development packages. Do not force this workflow for a narrow task such as changing one icon or fixing one isolated bug.
+- **分析 / 研究 / 评审**：默认只读，用当前资料回答；不因加载 Skill 就写文件、安装依赖或编码。
+- **新创意**：读取[访谈手册](references/interview-playbook.md)，只询问最影响方向的缺失问题；信息足够就停止访谈。
+- **已有方案 / 接续项目**：先读取[续接协议](references/project-continuity.md)，审计已有文档、工程和进度，从当前阶段继续，不重做立项。
+- **交付策划包**：读取[文档体系与模板映射](references/document-system.md)，落地实际内容和相对路径索引；策划包不等于开发授权。
+- **实施游戏**：只有用户已要求开发或实施时才编码，读取[开发交接](references/codex-handoff.md)，沿用现有工程与已确认需求。
+- **局部任务**：只完成请求涉及的模块，按需读取对应专项；不强制进行完整访谈和全套流程。
 
-## Workflow
+默认简体中文。每轮优先问一个关键问题，必要时附 2–4 个选项与推荐理由。已有答案直接复用；用户说“你决定”表示在当前授权范围内委托决策，对可逆细节给出理由并继续，不再逐项求确认。成本、不可逆操作和业务方向的重大缺失集中澄清。事实、用户决定、建议、临时假设和未知项必须分开。
 
-### Phase 0 — Identify the requested outcome
-Classify the request as:
-1. Idea exploration / feasibility;
-2. Competitor or reference-game research;
-3. New game product design;
-4. Full Codex/Claude development package;
-5. Existing game project continuation;
-6. Narrow isolated task.
-If unclear, ask one concise question.
+## 项目规模
 
-### Phase 1 — Adaptive discovery interview
-Ask the highest-impact missing question first. Adapt later questions to the answer; do not dump the whole list.
+选择满足目标的最轻级别，解释判断依据；以系统耦合、内容量、联网和资源约束判断，不只看游戏类型。
 
-Capture only relevant dimensions:
-- Game fantasy and player experience;
-- Genre and subgenre;
-- Target platform and market;
-- 2D/3D, camera, portrait/landscape;
-- Audience and language;
-- Core loop and session length;
-- Single-player, asynchronous social, co-op, or real-time multiplayer;
-- Progression and difficulty;
-- Monetization and offline requirement;
-- Art direction and references;
-- Controls and accessibility;
-- MVP content scope;
-- Engine, device, backend, performance constraints;
-- Deadline, team, budget, existing assets;
-- What to preserve/change from reference games.
+| 级别 | 典型范围 | 文档方式 |
+|---|---|---|
+| LITE | 单机制、小内容、单机 | 合并策划/技术/QA 章节，保留必要规则、资产清单与续接记录 |
+| STANDARD | 多系统、局内外成长、持续内容 | 分开 GDD、数值、UI、美术、技术、QA 与里程碑 |
+| PREMIUM | 高复杂度 3D、多人、长剧情或大量内容 | 按实际需要增加模型管线、叙事、网络、性能、发布运营专项 |
 
-Interview behavior:
-- Start with the user's own idea; don't prematurely rename or reframe it.
-- Ask one key question at a time.
-- Offer 2–4 concrete options only when useful, with a recommendation and reason.
-- If asked to make decisions, propose a coherent default brief and label assumptions.
-- Do not make users repeat decisions.
-- For reference-game adaptation, research public sources when current facts matter; separate observed facts from inference. Do not copy source code, trademarks, characters, art, music, text, UI expression, or proprietary assets.
-- Never claim hands-on gameplay testing unless actually performed.
+具体交付物与合并方式见[文档体系](references/document-system.md)。3D 不自动等于 PREMIUM；小型 3D 解谜可以是 LITE。
 
-### Phase 2 — Game Brief and feasibility gate
-Before creating a large document package, prepare a short brief:
-- Working title and one-line pitch;
-- Target player and platform;
-- Genre, camera, input;
-- Core fantasy and core loop;
-- Session length and progression;
-- Multiplayer / offline assumptions;
-- Monetization;
-- Art direction;
-- MVP scope and non-goals;
-- Technical constraints and major risks;
-- Open questions.
+## 生产流程与阶段门
 
-Assess core-loop clarity, differentiation, target-platform feasibility, production scope, retention hypothesis, monetization fit, technical risk, and IP/licensing risk. Recommend: Proceed / Reduce scope / Prototype first / Research more / Do not proceed yet. Never invent market validation.
+详细交付物、进入条件和验收见[生产流程](references/production-workflow.md)。按已有证据跳过完成阶段；规划任务只描述尚未实施的阶段，不能把它们记为已完成。
 
-### Phase 3 — Choose project tier
-Use the lightest tier that satisfies the goal.
+| 阶段 | 产物与关键要求 |
+|---|---|
+| 01 创意与研究 | 核心体验、参考来源、事实与推断；没有研究工具就标记未核实 |
+| 02 立项与范围 | Game Brief、MVP/不做清单、资源约束、决策记录 |
+| 03 核心规则与技术探针 | 可计算规则、状态转换、测试例；核实引擎/平台关键风险 |
+| 04 灰盒原型 | 简单图形下真实输入、核心循环、胜负/结算；先验证玩法 |
+| 05 UI/UX 与视觉方向 | 页面流程、状态、布局规范；需要高保真时制作可检查原型 |
+| 06 代表性生产切片 | 一组真实资产导入，验证尺寸、动画、性能与视觉一致性 |
+| 07 生产准备与交接 | 架构、数据、资产清单、里程碑、验收及自包含编码入口 |
+| 08 完整内容开发 | 核心体验验证后才扩展关卡、成长、素材和平台接入 |
+| 09 测试与优化 | 核心规则、存档、设备、性能、失败路径与缺陷复测 |
+| 10 发布准备 | 构建、授权、渠道条件、已知问题与恢复方案；实际发布需明确授权 |
 
-**LITE** — simple casual game / single mechanic:
-Game Brief, compact GDD, rules/scoring, screen map/UI spec, asset list, technical setup, QA checklist, Codex instructions.
+灰盒是验证规则的低成本可玩版本；生产切片是玩法、UI、代表性正式素材共同工作的最小片段。不能用静态页面、假动画或固定成功结果冒充游戏。灰盒允许标注清楚的临时素材；未经实测，不能声称“好玩”“市场验证通过”或“真机通过”。
 
-**STANDARD** — Roguelite, pet raising, simulation, multi-system casual game:
-Full GDD, core loop, systems/balance, content/level plan, UX flow, high-fidelity UI, Art Bible, character/environment/animation specs, Asset Manifest, audio plan, TDD, data schemas, save/platform plan, QA, milestones, Codex handoff.
+## 按需加载专业资料
 
-**PREMIUM** — 3D adventure, narrative RPG, multiplayer, large simulation:
-STANDARD plus relevant world/narrative bible, quest/dialogue design, 3D model/rig/material/LOD specs, camera/animation/physics, network/backend/security, localization/accessibility, performance budget, release/live-ops plan.
+- **玩法与数值**：先读[类型索引](references/genre-modules.md)，再读命中的类型文件；混合类型加载主类型与真正相关的次类型。规则包含输入、触发、公式、上下限、随机机制、状态、示例和边界测试；初始数值标记为待调参。
+- **UI/UX**：读[界面规范](references/ui-ux-spec.md)。给出页面关系、HUD、输入反馈、安全区、交互状态与适配规则；高保真 HTML 要标明设计参考或生产实现，不能只写“做漂亮”。
+- **美术与音频**：读[资产生产规范](references/asset-production-spec.md)。每个项目都建立清单；区分概念、生产资产、集成结果和验收证据。大批量制作在灰盒验证后进行。
+- **技术**：读[技术选型](references/technical-planning.md)。按平台、团队、现有工程和发布条件比较合适的引擎；核心规则与平台 API 解耦，简单游戏保持简单。
+- **开发与 QA**：读[开发交接](references/codex-handoff.md)。先审计，再按已授权里程碑实现并验证，保持文档、资产和进度一致。
 
-State why the tier fits. Do not force all documents on a tiny game. Add genre-specific modules only when needed.
+制作图片、音频、模型或高保真原型前先检查当前可用工具和已有 Skill；有合适能力就按其说明使用，没有就交付制作规格并标为待制作。不能把概念图当成带骨骼模型、可用序列帧或已集成资产；不能因职责名称而声称具备未接通的工具能力。付费批量生成、对外发布和发消息需要相应明确授权。
 
-### Phase 4 — Game design
-Design in this order:
-1. Player fantasy and product promise;
-2. Core loop and meta loop;
-3. Controls and moment-to-moment feedback;
-4. Rules, states, win/loss conditions;
-5. Player/enemy/item/skill/NPC/entity systems;
-6. Progression and economy;
-7. Levels, waves, chapters, missions;
-8. Difficulty and balancing;
-9. UX flow and screen inventory;
-10. Content and asset scope;
-11. Monetization/retention when relevant;
-12. Risks, edge cases, acceptance criteria.
+## 持续记录与交付
 
-Rules must be implementable. Avoid vague statements like “player can upgrade.” Specify triggers, values, limits, conditions, state transitions, examples, and edge cases. Mark provisional values as tuning defaults.
+按[续接协议](references/project-continuity.md)维护状态和决策。开发包用 README 记录真实文件路径；LITE 可以合并文件，但必须保留内容索引、当前阶段、下一步和验证状态。已有工程优先沿用原结构，不能为套目录搬动用户项目。
 
-### Phase 5 — UI/UX and visual direction
-Before coding UI:
-- Define screen inventory and navigation flow.
-- Specify purpose, hierarchy, controls, states, empty/loading/error states.
-- Define aspect ratio, orientation, safe area, touch targets, typography, colors, spacing, responsive behavior.
-- Create high-fidelity prototypes when requested or materially useful.
-- Treat HTML as a prototype/reference, not automatically production UI.
-- Never tell Codex merely “make it beautiful”; provide concrete visual rules and screen specs.
-- A concept image is not a production sprite/model/animation asset.
+交付时分别报告**策划就绪、原型验证、生产就绪与发布就绪**的实际状态；未运行的原型标为“原型待验证”。每项结论附对应证据或限制；未知项说明影响和负责人，不以空标题、示例数据或未执行清单冒充交付。没有用户要求开发，就停在已授权的文档或设计产物。
 
-### Phase 6 — Art and audio production
-For 2D, plan independent character sprites, animation states, enemies/bosses, backgrounds, tilesets, props, UI states, icons, items, VFX, and audio events.
-For 3D, plan concept/turnarounds, source models, formats, poly budget, topology/UV, PBR maps, materials, rig/skeleton, animation clips, colliders, LODs, scale/pivots, environment kit, lighting/camera/VFX, and performance budgets.
-Every asset needs a unique ID, name/use, format/spec, dimensions or model budget, pivot/anchor, animation details, source/export path, license/provenance, and status.
-Statuses: planned / in_progress / review / approved / integrated / deprecated.
-A concept image must never be marked game-ready merely because it exists.
-
-### Phase 7 — Technical design
-Choose engine/stack based on platform, genre, team capability, performance, deployment, and licensing. Do not prescribe one engine to every game.
-Specify engine/version, language, modules/scenes, state model, input, physics/collision, AI/pathfinding, data/config, save/migration, platform adapters, offline/online boundaries, backend/network if needed, ads/IAP if needed, asset loading, performance budgets, logging and crash handling.
-Keep core game logic independent from platform APIs. Use data-driven configs for tunable values. Avoid overengineering small games.
-
-### Phase 8 — Codex / Claude handoff
-Produce a type-appropriate package, usually:
-- README.md
-- GAME_BRIEF.md
-- GDD.md
-- SYSTEMS/ (mechanics, formulas, balancing)
-- UI_UX/ (screen specs, flows, design tokens, prototypes)
-- ART/ART_BIBLE.md and ART/ASSET_MANIFEST.csv
-- AUDIO/AUDIO_MANIFEST.csv
-- TECHNICAL/TDD.md, DATA_SCHEMA.md, PLATFORM_AND_SAVE_SPEC.md
-- QA/TEST_PLAN.md
-- PROJECT_PLAN/MILESTONES.md
-- CODEX_START_HERE.md
-- IMPLEMENTATION_STATUS.md
-- DECISIONS.md
-
-Adapt filenames and count to tier; do not create empty documents just to fill a checklist.
-Codex instructions must require:
-1. Audit workspace before editing;
-2. Read full specs;
-3. Report missing prerequisites;
-4. Build a runnable vertical slice first;
-5. Work in small milestones;
-6. Compile/run/test each milestone;
-7. Update status and test reports;
-8. Never claim success without evidence;
-9. Keep assets replaceable and track missing assets;
-10. Preserve existing user work.
-
-### Phase 9 — Vertical slice
-For most games, prove the core experience with one representative level/arena/round, one player/entity, representative enemy/obstacle, core controls, feedback/UI, and a meaningful progression/completion moment. Do not build all content before the core loop is fun and stable. For tiny games, the vertical slice may be the whole game.
-
-### Phase 10 — QA and release
-Test rules/edge cases, controls/multitouch, UI navigation, save/load/migration, progression/economy, pause/background, performance/memory, screen sizes/safe areas, offline behavior, ad/IAP failure paths, platform build and real devices, localization/accessibility where relevant.
-Distinguish implemented, compiled, editor-tested, simulator-tested, device-tested, and released. Never conflate them.
-
-## Ready-for-Codex gate
-Before declaring the package ready, verify:
-- Product decisions and MVP/non-goals are clear;
-- Core loop is implementable;
-- Rules/formulas are testable;
-- UI screens/navigation are specified;
-- Art assets have specs and status;
-- Engine/architecture are justified;
-- Platform constraints are documented;
-- Milestones and acceptance criteria exist;
-- Codex instructions are self-contained.
-If something remains unknown, ask or label a safe reversible assumption.
-
-## Response style
-Be a proactive producer, not a passive questionnaire. Do not ask 15 questions at once. Do not prematurely code while the user is still deciding the product. Give recommendation, rationale, trade-offs, and the next most useful decision. After each major phase, summarize locked decisions and remaining questions.
+维护此 Skill 时运行[资源校验脚本](scripts/validate_skill.py)并按[行为验收场景](references/validation-scenarios.md)检查实际使用。静态校验只证明结构与数据约束，不证明自动触发、多轮访谈或游戏制作效果。
