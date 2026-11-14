@@ -34,6 +34,92 @@ ENUMS = {
     "production_stage": {"concept", "production"},
 }
 LINK = re.compile(r"\[[^\]]*\]\(([^)]+)\)")
+RASTER_FORMATS = {"PNG", "JPG", "JPEG", "WEBP", "GIF", "BMP", "TIF", "TIFF"}
+MODEL_FORMATS = {"FBX", "GLTF", "GLB", "OBJ", "BLEND"}
+INTEGER_FIELDS = {"width", "height", "poly_budget", "sample_rate_hz", "channels", "max_instances", "priority"}
+
+
+def confined_path(root, base, value):
+    """Resolve a portable local path without following it outside root."""
+    if not value or value != value.strip():
+        raise ValueError("path is empty or has surrounding whitespace")
+    if value.startswith(("/", "\\")) or re.match(r"^[a-zA-Z][a-zA-Z0-9+.-]*:", value):
+        raise ValueError("absolute paths and URI paths are not portable")
+    linked = (base / value.replace("\\", "/")).resolve()
+    if not linked.is_relative_to(root.resolve()):
+        raise ValueError("path escapes root")
+    return linked
+
+
+def without_fences(content):
+    lines = []
+    fence = None
+    for line in content.splitlines():
+        marker = re.match(r"^\s{0,3}(`{3,}|~{3,})", line)
+        if marker:
+            token = marker.group(1)
+            if fence is None:
+                fence = token
+            elif token[0] == fence[0] and len(token) >= len(fence):
+                fence = None
+            continue
+        if fence is None:
+            lines.append(line)
+    return "\n".join(lines)
+
+
+def heading_anchors(content):
+    """Common Markdown ATX/Setext headings and explicit HTML id/name anchors."""
+    content = without_fences(content)
+    anchors = set(re.findall(r'<(?:a|h[1-6])\b[^>]*\b(?:id|name)=[\"\']([^\"\']+)', content, re.I))
+    counts = {}
+    lines = content.splitlines()
+    for index, line in enumerate(lines):
+        heading = re.match(r"^\s{0,3}#{1,6}\s+(.+?)\s*#*\s*$", line)
+        setext = index + 1 < len(lines) and re.fullmatch(r"\s{0,3}(?:=+|-+)\s*", lines[index + 1])
+        if not heading and not (line.strip() and setext):
+            continue
+        label = heading.group(1) if heading else line.strip()
+        label = re.sub(r"!?\[([^\]]+)\]\([^)]*\)", r"\1", label)
+        label = re.sub(r"<[^>]*>", "", label)
+        slug = re.sub(r"[^\w\- ]", "", label.lower()).replace(" ", "-")
+        duplicate = counts.get(slug, 0)
+        counts[slug] = duplicate + 1
+        anchors.add(f"{slug}-{duplicate}" if duplicate else slug)
+    return anchors
+
+
+def document_links(document, root):
+    """Check inline Markdown links/images; return errors and local graph edges."""
+    errors, edges = [], set()
+    prefix = str(document.relative_to(root))
+    try:
+        content = without_fences(document.read_text(encoding="utf-8-sig"))
+    except (OSError, UnicodeError) as exc:
+        return [f"Cannot read {prefix}: {exc}"], edges
+    for target in LINK.findall(content):
+        # Accept optional Markdown titles, including paths in angle brackets.
+        target = target.strip()
+        if target.startswith("<") and ">" in target:
+            target = target[1:target.index(">")]
+        else:
+            target = re.split(r'\s+[\"\']', target, maxsplit=1)[0]
+        try:
+            parsed = urlsplit(target)
+            if parsed.scheme and parsed.scheme.lower() != "file" and len(parsed.scheme) > 1:
+                continue  # Remote URLs are not fetched or certified.
+            linked = confined_path(root, document.parent, unquote(parsed.path)) if parsed.path else document
+            if parsed.scheme or parsed.netloc:
+                raise ValueError("absolute paths and file URIs are not portable")
+            if not linked.is_file() or linked.stat().st_size == 0:
+                raise ValueError("missing or empty local file")
+            if parsed.fragment and linked.suffix.lower() == ".md":
+                if unquote(parsed.fragment) not in heading_anchors(linked.read_text(encoding="utf-8-sig")):
+                    raise ValueError("missing heading anchor")
+            edges.add(linked)
+        except (OSError, UnicodeError, ValueError) as exc:
+            errors.append(f"Broken or nonportable link: {prefix} -> {target} ({exc})")
+    return errors, edges
 
 
 def resource_errors(root):
@@ -59,26 +145,8 @@ def resource_errors(root):
         if path.stat().st_size == 0:
             errors.append(f"Empty resource: {path.relative_to(root)}")
     for document in sorted(documents):
-        edges = set()
-        try:
-            content = document.read_text(encoding="utf-8-sig")
-        except UnicodeError as exc:
-            errors.append(f"Invalid UTF-8: {document.relative_to(root)}: {exc}")
-            continue
-        # Ignore fenced examples. This repository uses ordinary inline links.
-        content = re.sub(r"(?ms)^```[^\n]*\n.*?^```\s*$", "", content)
-        for target in LINK.findall(content):
-            target = target.strip().strip("<>")
-            parsed = urlsplit(target)
-            if parsed.scheme or parsed.netloc or not parsed.path:
-                continue
-            linked = (document.parent / unquote(parsed.path)).resolve()
-            if not linked.is_relative_to(root):
-                errors.append(f"Resource escapes package: {document.relative_to(root)} -> {target}")
-            elif not linked.is_file():
-                errors.append(f"Broken link: {document.relative_to(root)} -> {target}")
-            else:
-                edges.add(linked)
+        link_errors, edges = document_links(document, root)
+        errors.extend(link_errors)
         graph[document.resolve()] = edges
 
     pending = [(root / "SKILL.md").resolve()]
@@ -100,7 +168,7 @@ def manifest_errors(path, columns, audio=False):
     try:
         with path.open(encoding="utf-8-sig", newline="") as handle:
             rows = list(csv.reader(handle, strict=True))
-    except (UnicodeError, csv.Error) as exc:
+    except (OSError, UnicodeError, csv.Error) as exc:
         return [f"Invalid CSV {path.name}: {exc}"], 0
     if not rows or rows[0] != columns:
         return [f"Unexpected columns in {path.name}; expected {len(columns)} ordered fields"], 0
@@ -150,12 +218,19 @@ def manifest_errors(path, columns, audio=False):
                     raise ValueError("must be positive")
                 if field in nonnegative and number < 0:
                     raise ValueError("must be nonnegative")
+                if field in INTEGER_FIELDS and not number.is_integer():
+                    raise ValueError("must be an integer")
                 numbers[field] = number
             except ValueError as exc:
                 problem(f"Invalid {field}: {entry[field]!r} ({exc})")
 
         if entry["status"] == "ready":
-            for field in ("source_path", "export_path", "provenance"):
+            spec = ("duration_seconds", "sample_rate_hz", "channels") if audio else ()
+            if not audio and entry["format"].upper() in RASTER_FORMATS:
+                spec = ("width", "height")
+            if not audio and entry["format"].upper() in MODEL_FORMATS:
+                spec = ("poly_budget", "texture_spec", "scale_units")
+            for field in ("source_path", "export_path", "provenance") + spec:
                 if not entry[field].strip():
                     problem(f"ready requires {field}")
         if entry["integration_status"] == "integrated":

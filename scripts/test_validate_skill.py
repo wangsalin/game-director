@@ -117,6 +117,48 @@ class ValidationTests(unittest.TestCase):
         self.fields(audio=True, loop="true", duration_seconds="5", loop_start_seconds="1", loop_end_seconds="4")
         self.assert_valid()
 
+    def test_fractional_pixels_are_rejected(self):
+        self.fields(width="128.5")
+        self.assertTrue(self.errors())
+
+    def test_fractional_audio_channels_are_rejected(self):
+        self.fields(audio=True, channels="1.5")
+        self.assertTrue(self.errors())
+
+    def test_fractional_sample_rate_is_rejected(self):
+        self.fields(audio=True, sample_rate_hz="48000.5")
+        self.assertTrue(self.errors())
+
+    def test_fractional_fps_remains_valid(self):
+        self.fields(fps="29.97")
+        self.assert_valid()
+
+    def test_ready_png_requires_dimensions(self):
+        self.fields(status="ready", width="", height="", source_path="source/player.psd",
+                    export_path="export/player.png", provenance="original")
+        self.assertTrue(self.errors())
+
+    def test_ready_audio_requires_specs(self):
+        self.fields(audio=True, status="ready", duration_seconds="", source_path="source/a.wav",
+                    export_path="export/a.wav", provenance="original")
+        self.assertTrue(self.errors())
+
+    def test_file_uri_is_rejected(self):
+        self.append_link("file:///C:/missing/resource.md")
+        self.assertTrue(self.errors())
+
+    def test_windows_absolute_link_is_rejected(self):
+        self.append_link("C:/missing/resource.md")
+        self.assertTrue(self.errors())
+
+    def test_missing_anchor_is_rejected(self):
+        self.append_link("references/genre-modules.md#missing-section")
+        self.assertTrue(self.errors())
+
+    def test_existing_heading_anchor_is_valid(self):
+        self.append_link("references/genre-modules.md#游戏类型专项索引")
+        self.assert_valid()
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
