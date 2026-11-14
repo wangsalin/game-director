@@ -19,6 +19,8 @@
 
 使用[测试计划](../templates/QA_TEST_PLAN_TEMPLATE.md)和[测试报告](../templates/TEST_REPORT_TEMPLATE.md)。每个关键规则有可复现用例：前置/输入、步骤、预期、实际、环境/构建、证据和缺陷关联。退出阈值按阶段约定，不能在失败后降低标准来宣布通过。
 
+交付前按[项目文件验收](project-validation.md)核对索引、清单和实际文件；文件通过不代替游戏流程测试。交接入口保持自包含，不依赖接收方安装本 Skill。
+
 至少按实际功能覆盖核心循环/边界、输入、UI/暂停/失焦、存档/恢复、性能、屏幕适配；联网、广告/付费和多语言只在存在时补充。区分 implemented、compiled、editor-tested、simulator-tested、device-tested、released，缺设备就写 not_run。
 
 S0（数据损坏/重大服务或资金问题）、S1（核心循环无法完成/崩溃）应阻断对应交付；其他缺陷记录影响、规避与是否接受。发布退出标准还包括正式资源/许可、目标平台与必要设备验证；有未验证项时报告实际状态。

@@ -33,7 +33,7 @@ ENUMS = {
     "verification_status": {"not_run", "passed", "failed"},
     "production_stage": {"concept", "production"},
 }
-LINK = re.compile(r"\[[^\]]*\]\(([^)]+)\)")
+LINK = re.compile(r"\[[^\]]*\]\((<[^>\n]+>(?:\s+[^)\n]*)?|(?:[^()\n]|\([^()\n]*\))+)\)")
 RASTER_FORMATS = {"PNG", "JPG", "JPEG", "WEBP", "GIF", "BMP", "TIF", "TIFF"}
 MODEL_FORMATS = {"FBX", "GLTF", "GLB", "OBJ", "BLEND"}
 INTEGER_FIELDS = {"width", "height", "poly_budget", "sample_rate_hz", "channels", "max_instances", "priority"}

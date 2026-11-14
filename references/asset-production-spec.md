@@ -14,6 +14,8 @@
 
 尺寸、面数、帧率与贴图规格需在生产前确定；初期未知标注待定原因和影响，不伪造规格。license 为 `unknown` 时不得宣称可商业发布。CSV 使用 UTF-8、标准逗号分隔，含逗号的字段必须正确引用，所有行列数一致。
 
+像素尺寸、面数、采样率、声道、并发数、优先级为整数；FPS、时长和循环点允许合法小数。ready 的位图必须有 width/height，模型必须有 poly_budget/texture_spec/scale_units（无贴图可写 `none` 并说明），音频必须有 duration_seconds/sample_rate_hz/channels；均需 source_path/export_path/provenance。SVG 等矢量规格写在 notes 或对应规格文档，不冒充位图。
+
 ## 状态是独立维度
 
 | 字段 | 允许值 | 含义 |
@@ -25,6 +27,8 @@
 | verification_status | not_run / passed / failed | 是否按目标平台/设备验证；证据在 evidence_path |
 
 `ready` 不自动意味着 reviewed、integrated 或 device-tested。`integrated` 要求生产素材及导入证据；设备验证通过要求已集成并有构建/设备/观察记录。概念图可以 approved，但不能标为生产集成或设备通过。
+
+在真实项目中，ready 或 approved/integrated/已验证记录的源/导出文件必须存在且非空；approved/integrated/已验证记录还必须有 evidence_path。审核证据记录对象、版本、审核人/工具、标准与实际结论；集成/设备证据追加工程/构建、平台/设备、执行步骤与观察。路径统一相对项目根目录，不能填绝对路径或 file URI。[项目验收脚本](project-validation.md)会核实文件存在和部分规格，证据内容的真实性仍需人工/对应工具核验。
 
 旧清单若出现 `review/approved/integrated` 单字段状态，核对旧证据后分拆；未知的审核、集成或设备结果保持未验证，不能从旧标签自动推断。保留旧清单备份和迁移说明，不直接覆盖用户记录。
 

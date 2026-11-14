@@ -159,6 +159,34 @@ class ValidationTests(unittest.TestCase):
         self.append_link("references/genre-modules.md#游戏类型专项索引")
         self.assert_valid()
 
+    def test_parentheses_in_portable_filename(self):
+        (self.package / "references/room (1).md").write_text("# 房间\n", encoding="utf-8")
+        self.append_link("<references/room (1).md#房间>")
+        self.assert_valid()
+
+    def test_percent_encoded_relative_link(self):
+        (self.package / "references/room 1.md").write_text("# 房间\n", encoding="utf-8")
+        self.append_link("references/room%201.md#%E6%88%BF%E9%97%B4")
+        self.assert_valid()
+
+    def test_duplicate_heading_anchor(self):
+        (self.package / "references/headings.md").write_text("# Room\n# Room\n", encoding="utf-8")
+        self.append_link("references/headings.md#room-1")
+        self.assert_valid()
+
+    def test_remote_link_is_not_fetched(self):
+        self.append_link("https://example.invalid/not-checked")
+        self.assert_valid()
+
+    def test_same_document_missing_anchor(self):
+        self.append_link("#missing-heading")
+        self.assertTrue(self.errors())
+
+    def test_ready_model_requires_specs(self):
+        self.fields(format="GLB", status="ready", source_path="art/player.blend",
+                    export_path="art/player.glb", provenance="original")
+        self.assertTrue(self.errors())
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
