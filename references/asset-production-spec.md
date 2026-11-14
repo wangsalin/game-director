@@ -49,3 +49,5 @@
 ## 音频
 
 [音频模板](../templates/AUDIO_MANIFEST_TEMPLATE.csv)按事件登记 ID、文件名/路径、类别、时长、格式/采样率/声道、循环点、音量、优先级、叠播、并发/限频、来源和独立状态。BGM 检查循环接缝，SFX 检查多事件叠加，语音检查字幕/语言对应。没有音频需求时明确本版无音频，不生成空清单冒充完成。
+
+CSV 的 category 限 `BGM/SFX/Voice/Ambience`；按钮音、结算短乐等细分用途写到 trigger_event/notes，按用途归入 SFX 或 BGM，不另造 `UI/JINGLE` 枚举。loop/allow_overlap 使用 `true/false`，其余状态沿用上述独立维度。

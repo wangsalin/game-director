@@ -164,7 +164,7 @@ def resource_errors(root):
 def manifest_errors(path, columns, audio=False):
     errors = []
     if not path.is_file():
-        return [f"Missing manifest template: {path.name}"], 0
+        return [f"Missing manifest: {path.name}"], 0
     try:
         with path.open(encoding="utf-8-sig", newline="") as handle:
             rows = list(csv.reader(handle, strict=True))
@@ -256,7 +256,7 @@ def manifest_errors(path, columns, audio=False):
                 if "duration_seconds" in numbers and end > numbers["duration_seconds"]:
                     problem("Loop end exceeds duration")
     if count == 0:
-        errors.append(f"{path.name}: template needs at least one clearly marked format example")
+        errors.append(f"{path.name}: manifest must contain at least one data row")
     return errors, count
 
 

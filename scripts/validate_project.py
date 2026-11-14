@@ -125,7 +125,7 @@ def validate(root, asset_manifests=None, audio_manifests=None, release=False):
                 seen_manifests.add(path)
                 columns = AUDIO_COLUMNS if audio else ASSET_COLUMNS
                 row_errors, count = manifest_errors(path, columns, audio)
-                errors.extend(f"{name}: {error}" for error in row_errors)
+                errors.extend(error.replace(path.name, str(name), 1) for error in row_errors)
                 stats["manifests"] += 1
                 stats["audio" if audio else "assets"] += count
                 if row_errors:

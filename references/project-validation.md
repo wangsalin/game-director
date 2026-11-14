@@ -30,6 +30,8 @@ python -B "<skill-dir>/scripts/validate_project.py" "<project-root>" --release
 
 文件检查通过时报告“项目文件检查通过，原型/真机按实际结果另列”。planned 行通过表示策划可以继续，不代表生产完成。证据不存在时保持 not_reviewed/not_integrated/not_run 或准确记录失败，不新建虚假证据填满字段。只在既有明确授权覆盖相应工作时制作资产或改代码。
 
+保存检查日志时先捕获 stdout 与退出码，完成后再写入报告引用的日志文件。不要直接用重定向覆盖正在被检查的日志；Shell 会先清空目标，造成实际空文件断链。
+
 独立编码交接仍须自包含：记录项目自身校验命令；若接收环境没有安装本 Skill，不把本机 Skill 绝对路径设成唯一验证入口。可以按授权复制两个校验脚本 `validate_project.py` 和其同目录依赖 `validate_skill.py`，或写明此辅助检查未在接收环境运行。
 
 维护脚本时运行[真实文件回归测试](../scripts/test_validate_project.py)。测试在临时目录生成有效 PNG/PCM WAV，再验证缺失、损坏、错误规格、证据和路径场景；测试数据不代表任何游戏的真实 QA 证据。

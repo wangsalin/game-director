@@ -51,7 +51,7 @@ description: "Game production direction for new game ideas, GDDs, game UI/art pl
 
 ## 按需加载专业资料
 
-- **玩法与数值**：先读[类型索引](references/genre-modules.md)，再读命中的类型文件；混合类型加载主类型与真正相关的次类型。规则包含输入、触发、公式、上下限、随机机制、状态、示例和边界测试；初始数值标记为待调参。
+- **玩法与数值**：先读[类型索引](references/genre-modules.md)，再读命中的类型文件；混合类型加载主类型与真正相关的次类型。规则包含输入、触发、公式、上下限、随机机制、状态、示例和边界测试；初始数值标记为待调参，有汇总/公式样例时按[数值模板](templates/SYSTEMS_AND_BALANCE_TEMPLATE.md)复算派生量。
 - **UI/UX**：读[界面规范](references/ui-ux-spec.md)。给出页面关系、HUD、输入反馈、安全区、交互状态与适配规则；高保真 HTML 要标明设计参考或生产实现，不能只写“做漂亮”。
 - **美术与音频**：读[资产生产规范](references/asset-production-spec.md)。每个项目都建立清单；区分概念、生产资产、集成结果和验收证据。大批量制作在灰盒验证后进行。
 - **技术**：读[技术选型](references/technical-planning.md)。按平台、团队、现有工程和发布条件比较合适的引擎；核心规则与平台 API 解耦，简单游戏保持简单。
