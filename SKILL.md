@@ -1,6 +1,6 @@
 ---
 name: game-director
-description: "Game production direction for new game ideas, GDDs, game UI/art planning, engine decisions, production packages, and continuation of existing 2D/3D game projects. 游戏立项、玩法策划、游戏制作与开发交付。Use an adaptive interview only for missing product decisions; skip the full workflow for an isolated bug fix or single asset edit."
+description: "Game direction for concepts, GDDs, worldbuilding/story backgrounds, characters, plot, quests/dialogue, UI/art planning, engine decisions, production packages, and continuation of 2D/3D game projects. 游戏策划、世界观与故事背景、角色剧情、任务对白、游戏制作与开发交付。Use an adaptive interview for missing product decisions; keep isolated fixes and single asset edits scoped."
 ---
 
 # GAME DIRECTOR — AI 游戏制作总监
@@ -13,6 +13,7 @@ description: "Game production direction for new game ideas, GDDs, game UI/art pl
 - **新创意**：读取[访谈手册](references/interview-playbook.md)，只询问最影响方向的缺失问题；信息足够就停止访谈。
 - **已有方案 / 接续项目**：先读取[续接协议](references/project-continuity.md)，审计已有文档、工程和进度，从当前阶段继续，不重做立项。
 - **交付策划包**：读取[文档体系与模板映射](references/document-system.md)，落地实际内容和相对路径索引；策划包不等于开发授权。
+- **故事 / 世界观 / 剧情**：读取[叙事制作](references/narrative-design.md)，按背景设定、轻叙事或剧情驱动裁剪；只请求故事背景就交付背景，不自动生成完整游戏工程或整包文档。
 - **实施游戏**：只有用户已要求开发或实施时才编码，读取[开发交接](references/codex-handoff.md)，沿用现有工程与已确认需求。
 - **局部任务**：只完成请求涉及的模块，按需读取对应专项；不强制进行完整访谈和全套流程。
 
@@ -52,6 +53,7 @@ description: "Game production direction for new game ideas, GDDs, game UI/art pl
 ## 按需加载专业资料
 
 - **玩法与数值**：先读[类型索引](references/genre-modules.md)，再读命中的类型文件；混合类型加载主类型与真正相关的次类型。规则包含输入、触发、公式、上下限、随机机制、状态、示例和边界测试；初始数值标记为待调参，有汇总/公式样例时按[数值模板](templates/SYSTEMS_AND_BALANCE_TEMPLATE.md)复算派生量。
+- **故事与叙事**：读[叙事制作](references/narrative-design.md)，用实际背景、角色动机、主支线节拍与对白连接玩家行动；审查时间线、知识/线索、分支条件及存档。没有叙事需求的游戏不强加长剧情。
 - **UI/UX**：读[界面规范](references/ui-ux-spec.md)。给出页面关系、HUD、输入反馈、安全区、交互状态与适配规则；高保真 HTML 要标明设计参考或生产实现，不能只写“做漂亮”。
 - **美术与音频**：读[资产生产规范](references/asset-production-spec.md)。每个项目都建立清单；区分概念、生产资产、集成结果和验收证据。大批量制作在灰盒验证后进行。
 - **技术**：读[技术选型](references/technical-planning.md)。按平台、团队、现有工程和发布条件比较合适的引擎；核心规则与平台 API 解耦，简单游戏保持简单。
@@ -63,6 +65,6 @@ description: "Game production direction for new game ideas, GDDs, game UI/art pl
 
 按[续接协议](references/project-continuity.md)维护状态和决策。开发包用 README 记录真实文件路径；LITE 可以合并文件，但必须保留内容索引、当前阶段、下一步和验证状态。已有工程优先沿用原结构，不能为套目录搬动用户项目。
 
-交付时分别报告**策划就绪、原型验证、生产就绪与发布就绪**的实际状态；未运行的原型标为“原型待验证”。每项结论附对应证据或限制；未知项说明影响和负责人，不以空标题、示例数据或未执行清单冒充交付。策划包/资产交付时按[项目文件验收](references/project-validation.md)运行只读校验，有问题先修正当前范围的文档或记录；没有 Python 就明确未运行。没有用户要求开发，就停在已授权的文档或设计产物。
+交付时分别报告**策划就绪、原型验证、生产就绪与发布就绪**的实际状态；未运行的原型标为“原型待验证”。每项结论附对应证据或限制；未知项说明影响和负责人，不以空标题、示例数据或未执行清单冒充交付。完整策划包/资产交付时按[项目文件验收](references/project-validation.md)运行只读校验，有问题先修正当前范围的文档或记录；没有 Python 就明确未运行。仅叙事等局部文档交付按对应专项检查内容和真实引用，不为通过整项目校验增造清单。没有用户要求开发，就停在已授权的文档或设计产物。
 
 维护此 Skill 时运行[资源校验脚本](scripts/validate_skill.py)并按[行为验收场景](references/validation-scenarios.md)检查实际使用。静态校验只证明结构与数据约束，不证明自动触发、多轮访谈或游戏制作效果。

@@ -12,6 +12,11 @@
 | 00_Project_Overview/GAME_BRIEF.md | [Brief](../templates/GAME_BRIEF_TEMPLATE.md) | 体验、平台、受众、MVP、约束、假设 |
 | 01_Game_Design/GDD.md | [GDD](../templates/GDD_TEMPLATE.md) | 可实现规则、核心循环、内容范围；嵌入命中类型的专项 |
 | 01_Game_Design/SYSTEMS_AND_BALANCE.md | [系统与数值](../templates/SYSTEMS_AND_BALANCE_TEMPLATE.md) | 公式、初值、上下限、样例、调参目标 |
+| 01_Game_Design/Narrative/STORY_BIBLE.md | [故事/世界设定](../templates/STORY_BIBLE_TEMPLATE.md) | 实际背景、世界规则/历史、真相与信息投放；按需 |
+| 01_Game_Design/Narrative/CHARACTER_BIBLE.md | [角色与势力](../templates/CHARACTER_BIBLE_TEMPLATE.md) | 动机/行动、关系/弧线、知识边界、口吻与制作引用；按需 |
+| 01_Game_Design/Narrative/STORY_OUTLINE.md | [主支线大纲](../templates/STORY_OUTLINE_TEMPLATE.md) | 可玩节拍、伏笔回收、选择/合流/结局、路线与预算；按需 |
+| 01_Game_Design/Narrative/QUEST_DESIGN.md | [任务设计](../templates/QUEST_DESIGN_TEMPLATE.md) | 接取/目标/失败/提交、物品奖励、去重、读档与验收；按需 |
+| 01_Game_Design/Narrative/DIALOGUE_SCRIPT.md | [对白与演出](../templates/DIALOGUE_SCRIPT_TEMPLATE.md) | 实际台词、节点/选项、条件/副作用、字幕/跳过与存档；按需 |
 | 02_UI_UX/UI_SPEC.md | [UI](../templates/UI_SPEC_TEMPLATE.md) | 页面流、HUD、交互状态、布局/适配和原型路径 |
 | 03_Art_Assets/ART_BIBLE.md | [美术规范](../templates/ART_BIBLE_TEMPLATE.md) | 风格、可读性、输出规格、资产审核标准 |
 | 03_Art_Assets/ASSET_MANIFEST.csv | [美术清单](../templates/ASSET_MANIFEST_TEMPLATE.csv) | 每项资产规格、路径、来源、阶段/审核/集成状态 |
@@ -33,6 +38,8 @@
 **STANDARD**：按上表拆分需要维护的内容；关卡计划、核心循环和动画规格可先放在 GDD/Art Bible 的独立节，足够复杂时再拆文件。若不需要音频，明确本版无音频，不生成空清单凑数。
 
 **PREMIUM**：按实际系统增加世界观/叙事、任务/对话、3D 模型/骨骼管线、摄像机/物理、网络/服务器/反作弊、性能、本地化/无障碍、发布/运营专项。不因级别高就强行添加联网、剧情或商业化。
+
+**叙事按内容需求裁剪，不由项目级别硬性决定。** 只要背景就交付实际背景文本与必要设定，不强制整包或五份叙事文件。轻叙事可在 GDD 中合并；剧情驱动按[叙事制作](narrative-design.md)拆分真正需要维护的世界、角色、大纲、任务、对白，并把实际路径加入 README/开发入口。长篇按已授权章节/试写范围标记完成度，提纲不能冒充全剧本。
 
 ## 内容闭环
 

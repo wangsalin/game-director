@@ -6,11 +6,12 @@
 
 面向 Codex 的游戏策划与制作总监 Skill。从创意访谈、游戏策划、规则数值、关卡和 UI/美术规格，到技术方案、开发交接、进度续接与验收，按项目阶段推进。
 
-**当前版本：1.2.0。** 默认简体中文，支持 2D/3D、16 类游戏专项和 LITE / STANDARD / PREMIUM 三种规模。仅要求策划时交付策划包；明确授权开发后才进入实现。
+**当前版本：1.3.0。** 默认简体中文，支持 2D/3D、16 类游戏专项、独立叙事模块和 LITE / STANDARD / PREMIUM 三种规模。仅要求策划时交付策划包；明确授权开发后才进入实现。
 
 ## 能做什么
 
 - **游戏策划**：逐步澄清核心体验，编写 GDD、玩法循环、状态机、系统数值、成长、关卡与内容范围；复算重要汇总与公式样例。
+- **故事与叙事**：编写故事背景、世界规则/历史、角色与势力、主支线、伏笔与结局、实际对白及任务状态；审查角色知识、分支条件和存档衔接。只需背景时不强制整套长剧情。
 - **UI 与资产规划**：定义页面流程、HUD、输入反馈、适配、美术方向、2D/3D/音频规格及资产清单。
 - **技术与开发交接**：沿用已确认引擎与工程，设计模块、数据、存档、平台接入、里程碑、QA 和自包含开发入口。
 - **持续制作与验收**：恢复已有项目状态，区分概念、正式素材、集成和设备验证；附带真实文件、清单及 PNG/WAV 规格检查工具。
@@ -19,7 +20,7 @@
 
 ## 安装
 
-下载 [v1.2.0 安装包](https://github.com/wangsalin/game-director/releases/tag/v1.2.0)，将其中的 **game-director 文件夹**放到以下任一位置，确保 `SKILL.md` 直接位于该文件夹下：
+下载 [v1.3.0 安装包](https://github.com/wangsalin/game-director/releases/tag/v1.3.0)，将其中的 **game-director 文件夹**放到以下任一位置，确保 `SKILL.md` 直接位于该文件夹下：
 
 | 范围 | 路径 |
 |---|---|
@@ -35,14 +36,14 @@ Windows PowerShell：
 
 ```powershell
 New-Item -ItemType Directory -Force -Path "$env:USERPROFILE/.agents/skills" | Out-Null
-git clone --branch v1.2.0 --depth 1 https://github.com/wangsalin/game-director.git "$env:USERPROFILE/.agents/skills/game-director"
+git clone --branch v1.3.0 --depth 1 https://github.com/wangsalin/game-director.git "$env:USERPROFILE/.agents/skills/game-director"
 ```
 
 macOS / Linux：
 
 ```bash
 mkdir -p ~/.agents/skills
-git clone --branch v1.2.0 --depth 1 https://github.com/wangsalin/game-director.git ~/.agents/skills/game-director
+git clone --branch v1.3.0 --depth 1 https://github.com/wangsalin/game-director.git ~/.agents/skills/game-director
 ```
 
 使用 Skill 的指令与模板不要求 Python；运行随附校验脚本需要 **Python 3.10+**，仅使用标准库。
@@ -67,6 +68,12 @@ $game-director 为 PC 键鼠 2D 解谜游戏创建 LITE 策划包，包含具体
 $game-director 读取当前工程、文档和真实进度，保留已有修改，完成当前已授权的开发里程碑并验收。
 ```
 
+故事背景与剧情：
+
+```text
+$game-director 为一款海岛解谜游戏写故事背景、主角与关键NPC、主线和两个结局，说明线索如何通过玩法获得。先做叙事策划，不开发。
+```
+
 游戏立项、GDD、游戏制作等自然语言请求也允许自动匹配；实际触发由客户端决定，不保证每次都会命中。显式调用适合需要确定使用此 Skill 的场景。
 
 ## 验证
@@ -78,7 +85,7 @@ python -B scripts/validate_skill.py
 python -B -m unittest discover -s scripts -p "test_*.py" -v
 ```
 
-项目文件验收（替换为实际游戏项目根目录）：
+带资产清单的项目文件验收（替换为实际游戏项目根目录）：
 
 ```bash
 python -B scripts/validate_project.py /path/to/GAME_PROJECT
@@ -90,6 +97,7 @@ python -B scripts/validate_project.py /path/to/GAME_PROJECT
 
 - [Skill 主入口](SKILL.md)与[完整中文说明](README_CN.md)。
 - [16 类游戏专项](references/genre-modules.md)、[生产流程](references/production-workflow.md)与[文档/模板索引](references/document-system.md)。
+- [故事与叙事模块](references/narrative-design.md)：背景/世界、角色/势力、大纲、任务、对白五份可裁剪模板，以及内容和状态验收要求。
 - [资产生产规范](references/asset-production-spec.md)、[开发交接](references/codex-handoff.md)与[项目续接](references/project-continuity.md)。
 
 ## 许可
