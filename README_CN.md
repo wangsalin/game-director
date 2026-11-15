@@ -1,6 +1,6 @@
 # GAME DIRECTOR — AI 游戏制作总监
 
-版本 **1.4.1**。将游戏创意逐步转成可执行的策划、故事/世界观与角色剧情、UI/美术规格、技术方案和开发交接；已授权实施时，按里程碑推进真实游戏开发。含可选 Web 原型底座与运行验收工具，不自带原生引擎、模型/绑定工具或付费生成服务。
+版本 **1.5.0**。将游戏创意逐步转成可执行的策划、故事/世界观与角色剧情、UI/美术规格、技术方案和开发交接；已授权实施时，按里程碑推进真实游戏开发。含四套引擎专项、只读工程识别、可选 Web 原型底座与运行验收工具，不自带原生引擎、模型/绑定工具或付费生成服务。
 
 ## 使用
 
@@ -28,6 +28,7 @@ LITE 可合并文档；STANDARD/PREMIUM 按实际规模拆分。先验证灰盒�
 - [行为场景](references/validation-scenarios.md)：真实对话评估的输入与观察标准。
 - [项目文件验收](references/project-validation.md)：交付时核实清单、实际素材和证据文件；可直接运行。
 - [故事与叙事](references/narrative-design.md)：背景、世界观、角色/势力、主支线/结局、任务与对白；包括时间线、知识/线索和存档检查。
+- [引擎开发](references/engines/README.md)：Godot、Unity、Unreal Engine 和 Cocos Creator，按需覆盖版本/导入、场景/脚本、资源、调试、构建和产物启动；Creator 3.x/2.x 与 Cocos2d-x 不混用。
 
 全部参考文档和模板都能从 SKILL.md 沿相对链接到达，无需一次性读取全部文件。模板包含写作指导和显式示例，生成项目时要替换为真实内容；空模板不代表开发包完成。
 
@@ -61,6 +62,8 @@ python -B scripts/validate_project.py "C:/Games/MyGame"
 默认查找美术/音频清单，检查文档引用、真实文件、证据、PNG/WAV 规格。`--release` 加强资产完成状态与来源检查；通过不等于游戏或发布验收通过。参数、格式限制、自定义清单和退出码见[项目文件验收](references/project-validation.md)。
 
 实际多轮访谈、自动匹配、原项目续接和工具行为按[场景](references/validation-scenarios.md)在独立上下文验证，记录真实结果，不能将静态通过当成行为通过。
+
+1.5.0 新增引擎专项与只读 `scripts/inspect_engine_project.py`。工具仅读取选定元数据，不启动引擎或写入工程，识别返回 0 不等于编译/构建/试玩通过。实际命令与边界见[引擎入口](references/engines/README.md)。Godot 4.7.2 临时切片完成导入、13 项规则检查、PCK 导出/加载渲染及 9 项引擎输入事件模拟检查；独立 EXE、OS 键盘/真人试玩和实体设备未验证。Unity/Unreal/Cocos 编辑器与构建均未实跑，文档完整度与实测范围分开报告。
 
 1.4.1 修复静态服务对未压缩 WASM/游戏数据/Ogg 等资源的支持与响应类型，生成工程增加 `.gitignore`，补充真实浏览器 WASM 和 404 反例回归。原型资源、专用服务器与持续输入边界见[工具说明](scripts/web-check/README.md)。新增 Git 忽略行为回归在 Git 可用时执行，否则显示跳过；创建脚本本身不依赖 Git。
 

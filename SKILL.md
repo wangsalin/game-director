@@ -1,6 +1,6 @@
 ---
 name: game-director
-description: "Game direction for concepts, GDDs, worldbuilding/story backgrounds, characters, quests/dialogue, playable prototypes, UI/art, engine decisions, production packages, and continuation of 2D/3D projects. 游戏策划、故事背景、角色剧情、任务对白、可玩原型、游戏制作与开发交付。Use an adaptive interview for missing product decisions; keep isolated fixes and single asset edits scoped."
+description: "Game direction for concepts, GDDs, worldbuilding/story backgrounds, characters, quests/dialogue, playable prototypes, UI/art, engine workflows (Godot, Unity, Unreal, Cocos Creator), production packages, and continuation of 2D/3D projects. 游戏策划、故事背景、角色剧情、任务对白、可玩原型、引擎开发与交付。Use an adaptive interview for missing product decisions; keep isolated fixes and single asset edits scoped."
 ---
 
 # GAME DIRECTOR — AI 游戏制作总监
@@ -57,7 +57,7 @@ description: "Game direction for concepts, GDDs, worldbuilding/story backgrounds
 - **故事与叙事**：读[叙事制作](references/narrative-design.md)，用实际背景、角色动机、主支线节拍与对白连接玩家行动；审查时间线、知识/线索、分支条件及存档。没有叙事需求的游戏不强加长剧情。
 - **UI/UX**：读[界面规范](references/ui-ux-spec.md)。给出页面关系、HUD、输入反馈、安全区、交互状态与适配规则；高保真 HTML 要标明设计参考或生产实现，不能只写“做漂亮”。
 - **美术与音频**：读[资产生产规范](references/asset-production-spec.md)。每个项目都建立清单；区分概念、生产资产、集成结果和验收证据。大批量制作在灰盒验证后进行。
-- **技术**：读[技术选型](references/technical-planning.md)。按平台、团队、现有工程和发布条件比较合适的引擎；核心规则与平台 API 解耦，简单游戏保持简单。
+- **技术与引擎开发**：读[技术选型](references/technical-planning.md)，涉及工程时按[引擎路由](references/engines/README.md)只加载 Godot、Unity、Unreal 或 Cocos Creator 对应专项；覆盖版本/环境、导入、场景/脚本、资源、调试、构建与产物启动。核心规则与平台 API 解耦，简单游戏保持简单。
 - **开发与 QA**：读[开发交接](references/codex-handoff.md)。先审计，再按已授权里程碑实现并验证，保持文档、资产和进度一致。
 - **原型执行与验证**：读[原型与运行验收](references/prototyping.md)，先跑通核心行动/结算或目标/重开，用规则测试、真实输入、截图和错误记录验证；文件校验、运行用例与玩家体验分别报告。
 

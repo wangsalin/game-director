@@ -8,6 +8,8 @@
 2. 没有工程且已授权实施时，只补问影响核心行动、平台和范围的关键缺口。可逆细节按委托决定；先明确这次要验证的玩家行为/反馈、可观察结果与暂不做内容，不先写整套大型 GDD。
 3. 轻量 Web 合适且用户没有相反选择时，可用下述底座；已有 Web 用现有框架，原生引擎用真实编辑器/构建流程。缺引擎、导出模板、设备或凭证时明确阻塞与未运行范围，不能用浏览器页面冒充对应引擎构建。
 
+Godot、Unity、Unreal 和 Cocos Creator 工程按[引擎专项](engines/README.md)执行，先识别版本/环境，再完成导入→真实场景和脚本→代表性资源→编辑器运行→目标构建→独立启动产物；每阶段记录证据。Creator 3.8 成功退出码等引擎差异按对应专项核实，不统一假定为零。
+
 ## 可选 Web 底座
 
 工具入口：[创建脚本](../scripts/create_web_prototype.py)、[底座说明](../assets/web-prototype/README.md)、[配置](../assets/web-prototype/config.js)、[规则](../assets/web-prototype/src/rules.js)、[输入/渲染](../assets/web-prototype/src/main.js)、[页面](../assets/web-prototype/index.html)、[样式](../assets/web-prototype/style.css)、[项目配置](../assets/web-prototype/package.json)、[规则测试](../assets/web-prototype/tests/rules.test.js)、[浏览器计划](../assets/web-prototype/browser-plan.json)。

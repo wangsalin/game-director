@@ -6,7 +6,7 @@
 
 面向 Codex 的游戏策划与制作总监 Skill。从创意访谈、游戏策划、规则数值、关卡和 UI/美术规格，到技术方案、开发交接、进度续接与验收，按项目阶段推进。
 
-**当前版本：1.4.1。** 默认简体中文，支持 2D/3D、16 类游戏专项、独立叙事模块、可选 Web 原型工具和 LITE / STANDARD / PREMIUM 三种规模。仅要求策划时交付策划包；明确授权开发后才进入实现。
+**当前版本：1.5.0。** 默认简体中文，支持 2D/3D、16 类游戏专项、独立叙事模块、四套引擎开发专项、可选 Web 原型工具和 LITE / STANDARD / PREMIUM 三种规模。仅要求策划时交付策划包；明确授权开发后才进入实现。
 
 ## 能做什么
 
@@ -14,6 +14,7 @@
 - **故事与叙事**：编写故事背景、世界规则/历史、角色与势力、主支线、伏笔与结局、实际对白及任务状态；审查角色知识、分支条件和存档衔接。只需背景时不强制整套长剧情。
 - **UI 与资产规划**：定义页面流程、HUD、输入反馈、适配、美术方向、2D/3D/音频规格及资产清单。
 - **技术与开发交接**：沿用已确认引擎与工程，设计模块、数据、存档、平台接入、里程碑、QA 和自包含开发入口。
+- **引擎开发流程**：Godot、Unity、Unreal Engine 与 Cocos Creator 专项，覆盖环境/版本、工程导入、场景/脚本、资源、运行调试、构建和产物验收；附只读工程识别工具。
 - **持续制作与验收**：恢复已有项目状态，区分概念、正式素材、集成和设备验证；附带真实文件、清单及 PNG/WAV 规格检查工具。
 - **可玩原型与运行验收**：可选无第三方运行依赖的 Web 游戏底座，提供安全创建、独立规则测试、真实浏览器输入计划、截图/错误报告及自包含继续开发入口。已有引擎项目沿用原工程。
 
@@ -21,7 +22,7 @@
 
 ## 安装
 
-下载 [v1.4.1 安装包](https://github.com/wangsalin/game-director/releases/tag/v1.4.1)，将其中的 **game-director 文件夹**放到以下任一位置，确保 `SKILL.md` 直接位于该文件夹下：
+下载 [v1.5.0 安装包](https://github.com/wangsalin/game-director/releases/tag/v1.5.0)，将其中的 **game-director 文件夹**放到以下任一位置，确保 `SKILL.md` 直接位于该文件夹下：
 
 | 范围 | 路径 |
 |---|---|
@@ -37,14 +38,14 @@ Windows PowerShell：
 
 ```powershell
 New-Item -ItemType Directory -Force -Path "$env:USERPROFILE/.agents/skills" | Out-Null
-git clone --branch v1.4.1 --depth 1 https://github.com/wangsalin/game-director.git "$env:USERPROFILE/.agents/skills/game-director"
+git clone --branch v1.5.0 --depth 1 https://github.com/wangsalin/game-director.git "$env:USERPROFILE/.agents/skills/game-director"
 ```
 
 macOS / Linux：
 
 ```bash
 mkdir -p ~/.agents/skills
-git clone --branch v1.4.1 --depth 1 https://github.com/wangsalin/game-director.git ~/.agents/skills/game-director
+git clone --branch v1.5.0 --depth 1 https://github.com/wangsalin/game-director.git ~/.agents/skills/game-director
 ```
 
 使用 Skill 的指令与模板不要求 Python；随附 Python 创建/校验脚本需要 **Python 3.10+**，仅使用标准库。可选原型规则测试需要 **Node 20+**；自动浏览器检查另需工具锁定的 Playwright 和可启动浏览器。它们不是游戏运行依赖。
@@ -95,6 +96,24 @@ python -B scripts/create_web_prototype.py /path/to/new-game --title "原型名�
 
 1.4.1 补齐未压缩 WASM、部分游戏二进制/Ogg 资源与正确响应类型，生成工程附带 `.gitignore`，另加入实际浏览器 WASM/404 回归。资源可服务不等于完整引擎导出可运行；压缩、多线程、专用服务器和持续输入的限制见[工具说明](scripts/web-check/README.md)。
 
+## 引擎专项与真实验证范围
+
+按[引擎入口](references/engines/README.md)只读取当前使用的引擎；保留指定版本和已有工程。Cocos Creator 3.x、旧 2.x、Cocos2d-x 分开识别，不混用 API；3.8 命令行构建的成功退出码 `36` 按官方说明处理。
+
+```text
+$game-director 用 Cocos Creator 3.8 继续当前 2D 游戏，先核实工程版本和资源引用，完成已授权切片，再实际预览与构建；缺编辑器或平台条件时明确未运行，不转其他引擎。
+```
+
+可从任何目录执行只读元数据识别（不启动引擎、不改工程）：
+
+```text
+python -B "<skill-dir>/scripts/inspect_engine_project.py" "<actual-project-root>"
+```
+
+返回 0 仅代表一个工程被识别且所读元数据无错误；编译、试玩、构建和设备状态保持 `not_run`，须另行实际验证。退出码、范围及局限见引擎入口。
+
+1.5.0 在 Windows / Godot 4.7.2 实际验证临时切片的 PNG/WAV 导入、13 项规则断言、PCK 资源包导出、独立目录加载渲染，以及 9 项引擎输入事件模拟断言（含胜利/重开）。原生窗口截图工具两次超时，OS 键盘/真人试玩未通过验证；PCK 不等于独立 EXE。Unity、Unreal、Cocos 的文档流程和元数据识别已补充，编辑器/构建/真机未实跑。详细结果见[验收记录](references/validation-scenarios.md)，不承诺四引擎任意项目直接构建成功。
+
 ## 验证
 
 在仓库根目录运行：
@@ -119,6 +138,7 @@ python -B scripts/validate_project.py /path/to/GAME_PROJECT
 ## 资料入口
 
 - [原型、运行验收与继续开发](references/prototyping.md)：可玩底座、真实输入、规则测试、截图/日志与交接。
+- [引擎专项](references/engines/README.md)：[Godot](references/engines/godot.md)、[Unity](references/engines/unity.md)、[Unreal](references/engines/unreal.md)、[Cocos Creator](references/engines/cocos.md)。
 - [Skill 主入口](SKILL.md)与[完整中文说明](README_CN.md)。
 - [16 类游戏专项](references/genre-modules.md)、[生产流程](references/production-workflow.md)与[文档/模板索引](references/document-system.md)。
 - [故事与叙事模块](references/narrative-design.md)：背景/世界、角色/势力、大纲、任务、对白五份可裁剪模板，以及内容和状态验收要求。
