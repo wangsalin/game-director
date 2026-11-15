@@ -72,11 +72,12 @@ def inspect_project(project):
             features = re.search(r'^config/features\s*=\s*PackedStringArray\(([^\n]*)\)', text or "", re.M)
             versions = re.findall(r'"(\d+\.\d+(?:\.\d+)?)"', features[1]) if features else []
             config = re.search(r'^config_version\s*=\s*(\d+)\s*$', text or "", re.M)
+            valid_config = config is not None and len(config[1]) <= 9
             add("godot", versions[0] if versions else None, "project.godot",
-                "godot", config_version=int(config[1]) if config else None,
+                "godot", config_version=int(config[1]) if valid_config else None,
                 export_presets=(root / "export_presets.cfg").is_file())
-            if text is not None and not config:
-                finding("error", "invalid_godot_config", "project.godot", "Missing config_version.")
+            if text is not None and not valid_config:
+                finding("error", "invalid_godot_config", "project.godot", "Missing or invalid config_version.")
             finding("warning", "godot_version_hint", "project.godot",
                     "Feature version is a compatibility hint, not proof of the exact editor patch or .NET edition.")
 

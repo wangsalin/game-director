@@ -94,10 +94,11 @@
 
 - 增加[引擎共同流程](engines/README.md)和 Godot、Unity、Unreal Engine、Cocos Creator 四份按需专项，接入技术选型、原型、开发交接和现有模板。逐项覆盖版本/工具、创建/导入、场景/脚本、资源引用、运行排错、目标构建和产物启动；不是四引擎自动生成器或迁移器。
 - 根据官方版本文档核实具体命令/API，特别保留 Creator 3.8 构建成功退出码 36、失败 32/34、配置导出与 UUID，Creator 2.x/3.x/Cocos2d-x 边界，Unity Editor/包/BuildReport，Godot 资源包与独立导出的区别，Unreal 编译/Cook/打包阶段。引用与核对日期在各专项；文档核对不等于在对应编辑器执行。
-- Windows / Python 3.13.7：96 项回归全部通过，无跳过；新增 15 项涵盖四引擎元数据、Creator 应用版与编辑器版区分、旧版/歧义工程、损坏/重复 JSON、超限、越界符号链接、异地 CLI 和只读哈希不变。资源校验通过，64 个支持资源可达；官方 quick_validate 另行通过。Node v24.14.1 原底座/工具 19 项通过，本版未修改 Web 运行代码。
+- Windows / Python 3.13.7：97 项回归全部通过，无跳过；新增 16 项涵盖四引擎元数据、Creator 应用版与编辑器版区分、旧版/歧义工程、损坏/重复 JSON、超限、越界符号链接、异地 CLI 和只读哈希不变。资源校验通过，64 个支持资源可达；官方 quick_validate 另行通过。Node v24.14.1 原底座/工具 19 项通过，本版未修改 Web 运行代码。
 - 只读识别另用于实际 Godot 临时工程与官方 Cocos `physics-3d/package.json`。Cocos 试件只取官方元数据并建立最小目录，不是已导入的完整 Creator 工程；识别版本 3.8.0，所有引擎执行阶段仍为 not_run。工具不启动编辑器，不检查全部场景/UUID/SDK，不因 metadata passed 预填构建通过。
 - 从 Godot 官方发布取得 Windows 4.7.2 标准便携版，核对 GitHub 发布资产 SHA-256 与实际下载一致，再实际查询为 `4.7.2.stable.official.ed1daf0bf`。临时切片使用真实 `project.godot`、主场景、GDScript 规则/输入/显示，临时 PNG 和生成 WAV 经引擎导入；13 项规则断言通过（边界、墙体、合法路径、胜利、胜利后阻止移动、重开）。
 - 实际执行 `--export-pack` 导出 PCK，约 9KB；从工程外独立目录用 `--main-pack` 加载，OpenGL Compatibility 渲染成功。另用测试脚本经 `Input.parse_input_event` 注入按键事件，9 项断言通过，日志记录 10 次真实规则状态变更/阻挡/重开事件；读取并查看初态、胜利和重开视口截图，HUD、角色、墙与目标一致。这是引擎输入事件模拟，不是 OS 键盘、真人试玩、编辑器 UI 自动化或独立原生 EXE 导出。
 - 原生窗口自动化连续两次获取截图分别报 `FrameArrived timed out`、`window capture timed out`，没有发送键盘输入；停止同方法重试，OS 输入测试保留 not_run，改用引擎事件模拟并明确其范围。临时日志脚本首次因 Windows 输出编码在打印中文日志时失败，导入已完成；读取已保存导入日志确认无脚本/资源错误，再以转义输出继续，无修改全局编码或吞引擎错误。
+- 发布前损坏配置反例实际复现：Godot `config_version` 含 5000 位数字时，首次实现触发整数转换异常且未输出 JSON。增加解析长度约束和 CLI 回归后，同输入退出 1、输出 metadata failed JSON、无 traceback；没有提高解释器限制或将损坏配置视为可用。
 
 本轮临时工程、引擎二进制和证据不作为 Skill 分发文件。Godot 独立 EXE/Web/移动导出、主观音频检查、OS 键盘/真人试玩、实体设备与性能仍未验证。定向 PATH、常见安装位置和卸载项中未找到可用的 Unity/Unreal/Cocos Editor；没有全盘搜索或擅自安装/接受许可，这三套编辑器导入、编译、试玩、构建与渠道/设备均 not_run。后续最小条件是提供匹配编辑器、实际工程与所需 SDK/平台配置，再按专项逐阶段执行；不能据此宣称任意游戏已生产或发布就绪。

@@ -39,6 +39,17 @@ class EngineInspectionTests(unittest.TestCase):
         self.assertEqual(r["engines"][0]["version"], "2022.3.62f1")
         self.assertEqual(r["validation"]["metadata"], "passed")
 
+    def test_oversized_godot_format_number_returns_json_failure(self):
+        self.write("project.godot", "config_version=" + "9" * 5000 + "\n")
+        script = Path(__file__).with_name("inspect_engine_project.py").resolve()
+        result = subprocess.run([sys.executable, "-B", str(script), str(self.root)],
+                                capture_output=True, encoding="utf-8")
+        self.assertEqual(result.returncode, 1)
+        self.assertEqual(result.stderr, "")
+        report = json.loads(result.stdout)
+        self.assertEqual(report["validation"]["metadata"], "failed")
+        self.assertIsNone(report["engines"][0]["metadata"]["config_version"])
+
     def test_unity_missing_version_fails(self):
         (self.root / "Assets").mkdir()
         (self.root / "ProjectSettings").mkdir()

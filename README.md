@@ -112,7 +112,7 @@ python -B "<skill-dir>/scripts/inspect_engine_project.py" "<actual-project-root>
 
 返回 0 仅代表一个工程被识别且所读元数据无错误；编译、试玩、构建和设备状态保持 `not_run`，须另行实际验证。退出码、范围及局限见引擎入口。
 
-1.5.0 在 Windows / Godot 4.7.2 实际验证临时切片的 PNG/WAV 导入、13 项规则断言、PCK 资源包导出、独立目录加载渲染，以及 9 项引擎输入事件模拟断言（含胜利/重开）。原生窗口截图工具两次超时，OS 键盘/真人试玩未通过验证；PCK 不等于独立 EXE。Unity、Unreal、Cocos 的文档流程和元数据识别已补充，编辑器/构建/真机未实跑。详细结果见[验收记录](references/validation-scenarios.md)，不承诺四引擎任意项目直接构建成功。
+1.5.0 在 Windows / Godot 4.7.2 实际验证临时切片的 PNG/WAV 导入、13 项规则断言、PCK 资源包导出、独立目录加载渲染，以及 9 项引擎输入事件模拟断言（含胜利/重开）。原生窗口截图工具两次超时，OS 键盘/真人试玩未执行；PCK 不等于独立 EXE。Unity、Unreal、Cocos 的文档流程和元数据识别已补充，编辑器/构建/真机未实跑。详细结果见[验收记录](references/validation-scenarios.md)，不承诺四引擎任意项目直接构建成功。
 
 ## 验证
 
