@@ -54,6 +54,40 @@ test('static server binds loopback, serves real bytes, records hashes and closes
   } finally { await server.close(); }
   await assert.rejects(() => fetch(server.url));
 });
+
+test('WASM is served with its exact MIME type and compiles through streaming', async t => {
+  const root = await fixture(t);
+  await writeFile(join(root, 'core.wasm'), new Uint8Array([0, 97, 115, 109, 1, 0, 0, 0]));
+  const server = await serve(root);
+  try {
+    const response = await fetch(server.url + '/core.wasm');
+    assert.equal(response.status, 200);
+    assert.equal(response.headers.get('content-type'), 'application/wasm');
+    const { instance } = await WebAssembly.instantiateStreaming(response);
+    assert.ok(instance instanceof WebAssembly.Instance);
+  } finally { await server.close(); }
+});
+
+test('game data, Ogg and icons preserve binary bytes and typed headers', async t => {
+  const root = await fixture(t);
+  const data = new Uint8Array([0, 1, 127, 128, 255]);
+  const types = { 'pack.pck': 'application/octet-stream', 'game.data': 'application/octet-stream',
+    'game.bin': 'application/octet-stream', 'sound.ogg': 'audio/ogg', 'favicon.ico': 'image/x-icon' };
+  for (const name of Object.keys(types)) await writeFile(join(root, name), data);
+  await writeFile(join(root, 'core.wasm.gz'), data);
+  const server = await serve(root);
+  try {
+    for (const [name, type] of Object.entries(types)) {
+      const response = await fetch(server.url + '/' + name);
+      assert.equal(response.status, 200, name);
+      assert.equal(response.headers.get('content-type'), type, name);
+      assert.deepEqual(new Uint8Array(await response.arrayBuffer()), data, name);
+      assert.equal(server.served.get(name).length, 64);
+    }
+    assert.equal((await fetch(server.url + '/core.wasm.gz')).status, 404);
+    assert.equal((await fetch(server.url + '/.env')).status, 404);
+  } finally { await server.close(); }
+});
 test('invalid plan writes failed report before any browser is needed', async t => {
   const root = await fixture(t); const planPath = join(root, 'plan.json');
   await writeFile(planPath, '{"schema":1,"scenarios":[]}');

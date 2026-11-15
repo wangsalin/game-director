@@ -85,6 +85,11 @@ jobs:
           (root / 'mobile-plan.json').write_text(json.dumps(mobile, ensure_ascii=False), encoding='utf-8')
           PY
           node "$PROJECT/tools/web-check/check.mjs" --project "$PROJECT" --plan "$PROJECT/mobile-plan.json" --out "$RUNNER_TEMP/web-touch"
+      - name: Check browser WASM streaming and missing-resource failures
+        if: matrix.node == '24'
+        env:
+          WEB_CHECK_TEST_ROOT: ${{ runner.temp }}/web-integration
+        run: npm --prefix "$PROJECT/tools/web-check" run test:browser
       - name: Preserve browser reports and screenshots
         if: always() && matrix.node == '24'
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
@@ -93,5 +98,6 @@ jobs:
           path: |
             ${{ runner.temp }}/web-desktop
             ${{ runner.temp }}/web-touch
+            ${{ runner.temp }}/web-integration
           if-no-files-found: warn
           retention-days: 14

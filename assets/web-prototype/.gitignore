@@ -1,0 +1,15 @@
+# Local dependencies and Python caches.
+node_modules/
+__pycache__/
+*.py[cod]
+.venv/
+
+# Local credentials; keep safe configuration examples versioned.
+.env
+.env.*
+!.env.example
+
+# Disposable browser runs. Curated evidence can live in evidence/.
+evidence-run-*/
+test-results/
+playwright-report/

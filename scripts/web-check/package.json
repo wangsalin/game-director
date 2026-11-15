@@ -1,9 +1,9 @@
 {
   "name": "game-director-web-check",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "private": true,
   "type": "module",
   "engines": { "node": ">=20" },
-  "scripts": { "test": "node --test check.test.mjs" },
+  "scripts": { "test": "node --test check.test.mjs", "test:browser": "node --test browser.test.mjs" },
   "dependencies": { "playwright": "1.65.1" }
 }

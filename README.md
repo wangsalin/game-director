@@ -6,7 +6,7 @@
 
 面向 Codex 的游戏策划与制作总监 Skill。从创意访谈、游戏策划、规则数值、关卡和 UI/美术规格，到技术方案、开发交接、进度续接与验收，按项目阶段推进。
 
-**当前版本：1.4.0。** 默认简体中文，支持 2D/3D、16 类游戏专项、独立叙事模块、可选 Web 原型工具和 LITE / STANDARD / PREMIUM 三种规模。仅要求策划时交付策划包；明确授权开发后才进入实现。
+**当前版本：1.4.1。** 默认简体中文，支持 2D/3D、16 类游戏专项、独立叙事模块、可选 Web 原型工具和 LITE / STANDARD / PREMIUM 三种规模。仅要求策划时交付策划包；明确授权开发后才进入实现。
 
 ## 能做什么
 
@@ -21,7 +21,7 @@
 
 ## 安装
 
-下载 [v1.4.0 安装包](https://github.com/wangsalin/game-director/releases/tag/v1.4.0)，将其中的 **game-director 文件夹**放到以下任一位置，确保 `SKILL.md` 直接位于该文件夹下：
+下载 [v1.4.1 安装包](https://github.com/wangsalin/game-director/releases/tag/v1.4.1)，将其中的 **game-director 文件夹**放到以下任一位置，确保 `SKILL.md` 直接位于该文件夹下：
 
 | 范围 | 路径 |
 |---|---|
@@ -37,14 +37,14 @@ Windows PowerShell：
 
 ```powershell
 New-Item -ItemType Directory -Force -Path "$env:USERPROFILE/.agents/skills" | Out-Null
-git clone --branch v1.4.0 --depth 1 https://github.com/wangsalin/game-director.git "$env:USERPROFILE/.agents/skills/game-director"
+git clone --branch v1.4.1 --depth 1 https://github.com/wangsalin/game-director.git "$env:USERPROFILE/.agents/skills/game-director"
 ```
 
 macOS / Linux：
 
 ```bash
 mkdir -p ~/.agents/skills
-git clone --branch v1.4.0 --depth 1 https://github.com/wangsalin/game-director.git ~/.agents/skills/game-director
+git clone --branch v1.4.1 --depth 1 https://github.com/wangsalin/game-director.git ~/.agents/skills/game-director
 ```
 
 使用 Skill 的指令与模板不要求 Python；随附 Python 创建/校验脚本需要 **Python 3.10+**，仅使用标准库。可选原型规则测试需要 **Node 20+**；自动浏览器检查另需工具锁定的 Playwright 和可启动浏览器。它们不是游戏运行依赖。
@@ -93,6 +93,8 @@ python -B scripts/create_web_prototype.py /path/to/new-game --title "原型名�
 
 底座本身是可玩的回合制收集游戏；其他玩法需实际改写规则、输入/表现与用例，不能只改名。它带模块化源码、配置、规则测试和自包含 `tools/web-check/`，创建时不安装工具、不预填通过。运行方法、依赖、计划格式、失败/缺工具结果与继续开发见[原型执行说明](references/prototyping.md)。只支持静态 Web 的随附浏览器工具不能代替 Unity/Godot/Unreal 或实体设备验证。
 
+1.4.1 补齐未压缩 WASM、部分游戏二进制/Ogg 资源与正确响应类型，生成工程附带 `.gitignore`，另加入实际浏览器 WASM/404 回归。资源可服务不等于完整引擎导出可运行；压缩、多线程、专用服务器和持续输入的限制见[工具说明](scripts/web-check/README.md)。
+
 ## 验证
 
 在仓库根目录运行：
@@ -103,6 +105,8 @@ python -B -m unittest discover -s scripts -p "test_*.py" -v
 node --test assets/web-prototype/tests/rules.test.js
 node --test scripts/web-check/check.test.mjs
 ```
+
+Git 忽略行为回归在 Git 可用时实际运行，缺少 Git 时显示跳过；创建脚本本身不依赖 Git。安装工具依赖及浏览器后，可在 `scripts/web-check/` 运行 `npm run test:browser`，测试和失败证据保留方式见工具说明。
 
 带资产清单的项目文件验收（替换为实际游戏项目根目录）：
 

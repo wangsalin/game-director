@@ -9,7 +9,9 @@ const sha = data => createHash('sha256').update(data).digest('hex');
 const idPattern = /^[a-zA-Z0-9_-]{1,48}$/;
 const mime = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript',
   '.css': 'text/css', '.json': 'application/json', '.png': 'image/png', '.jpg': 'image/jpeg',
-  '.jpeg': 'image/jpeg', '.svg': 'image/svg+xml', '.webp': 'image/webp', '.wav': 'audio/wav', '.mp3': 'audio/mpeg', '.woff2': 'font/woff2' };
+  '.jpeg': 'image/jpeg', '.svg': 'image/svg+xml', '.webp': 'image/webp', '.wav': 'audio/wav', '.mp3': 'audio/mpeg', '.woff2': 'font/woff2',
+  '.wasm': 'application/wasm', '.pck': 'application/octet-stream', '.data': 'application/octet-stream',
+  '.bin': 'application/octet-stream', '.ogg': 'audio/ogg', '.ico': 'image/x-icon' };
 const message = error => String(error?.message ?? error).slice(0, 3000);
 const inside = (root, path) => { const rel = relative(root, path); return !isAbsolute(rel) && rel !== '..' && !rel.startsWith(`..${sep}`); };
 
@@ -70,7 +72,10 @@ export async function serve(project) {
       const path = await staticFile(root, new URL(request.url, 'http://127.0.0.1').pathname);
       const data = await readFile(path);
       served.set(relative(root, path).split(sep).join('/'), sha(data));
-      response.writeHead(200, { 'Content-Type': `${mime[extname(path).toLowerCase()]}; charset=utf-8`, 'Cache-Control': 'no-store' });
+      const type = mime[extname(path).toLowerCase()];
+      const contentType = type.startsWith('text/') || ['application/json', 'image/svg+xml'].includes(type)
+        ? `${type}; charset=utf-8` : type;
+      response.writeHead(200, { 'Content-Type': contentType, 'Cache-Control': 'no-store' });
       response.end(request.method === 'HEAD' ? undefined : data);
     } catch { response.writeHead(404).end('Not found'); }
   });
@@ -116,7 +121,7 @@ export async function runChecks({ project, planPath, out, executable, channel })
   if (out === project) throw new Error('Output must not replace the project root.');
   // A new evidence directory prevents stale screenshots/reports being mistaken for this run.
   await mkdir(out, { recursive: false });
-  const report = { schema: 1, toolVersion: '1.4.0', status: 'failed', startedAt: new Date().toISOString(), project,
+  const report = { schema: 1, toolVersion: '1.4.1', status: 'failed', startedAt: new Date().toISOString(), project,
     environment: { platform: process.platform, node: process.version }, scenarios: [], servedFiles: [],
     limits: ['Only this plan and viewport are checked.', 'No judgement of fun, balance, art quality, native engines, physical devices or release readiness.'] };
   let browser; let server;

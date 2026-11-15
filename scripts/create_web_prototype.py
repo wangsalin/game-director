@@ -21,9 +21,9 @@ def create(destination, title="信标小径", skill_root=None):
     source = root / "assets/web-prototype"
     checker = root / "scripts/web-check"
     # Validate sources before creating any destination. The explicit list excludes caches.
-    game_files = ["index.html", "style.css", "config.js", "package.json", "README.md",
+    game_files = [".gitignore", "index.html", "style.css", "config.js", "package.json", "README.md",
                   "src/main.js", "src/rules.js", "tests/rules.test.js", "browser-plan.json"]
-    tool_files = ["check.mjs", "check.test.mjs", "package.json", "package-lock.json", "README.md"]
+    tool_files = ["check.mjs", "check.test.mjs", "browser.test.mjs", "package.json", "package-lock.json", "README.md"]
     for path in [*(source / name for name in game_files), *(checker / name for name in tool_files), root / "LICENSE"]:
         if not path.is_file() or not path.stat().st_size:
             raise ValueError(f"Missing or empty source resource: {path.relative_to(root)}")

@@ -24,14 +24,34 @@ class CreationTests(unittest.TestCase):
     def test_self_contained_project_and_checker(self):
         create_web_prototype.create(self.destination)
         files = {p.relative_to(self.destination).as_posix() for p in self.destination.rglob("*") if p.is_file()}
-        self.assertEqual(len(files), 15)
+        self.assertEqual(len(files), 17)
         for name in files:
             self.assertGreater((self.destination / name).stat().st_size, 0)
         self.assertIn("tools/web-check/LICENSE", files)
         self.assertIn("tools/web-check/check.test.mjs", files)
+        self.assertIn("tools/web-check/browser.test.mjs", files)
         self.assertEqual(json.loads((self.destination / "browser-plan.json").read_text(encoding="utf-8"))["schema"], 1)
         self.assertEqual(json.loads((self.destination / "package.json").read_text(encoding="utf-8"))["type"], "module")
         self.assertNotIn("node_modules", files)
+
+    @unittest.skipUnless(shutil.which("git"), "Git is needed to verify generated ignore behavior")
+    def test_generated_gitignore_keeps_source_and_excludes_local_outputs(self):
+        create_web_prototype.create(self.destination)
+        empty_excludes = self.root / "empty-excludes"
+        empty_excludes.write_text("", encoding="utf-8")
+        subprocess.run(["git", "init", "--quiet", "--template=", str(self.destination)], check=True,
+                       capture_output=True)
+        ignored = ["node_modules/pkg/index.js", "tools/web-check/node_modules/pkg/index.js",
+                   "evidence-run-01/report.json", "test-results/screen.png", ".env", ".env.local",
+                   "__pycache__/module.pyc"]
+        kept = ["README.md", "browser-plan.json", "tools/web-check/package-lock.json",
+                ".env.example", "evidence/approved/report.json", "assets/map.data"]
+        result = subprocess.run(["git", "-c", f"core.excludesFile={empty_excludes}", "check-ignore",
+                                 "--no-index", "--stdin", "-z"],
+                                input=b"\0".join(p.encode("utf-8") for p in ignored + kept) + b"\0",
+                                cwd=self.destination, capture_output=True)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(result.stdout.decode("utf-8").split("\0")[:-1], ignored)
 
     def test_existing_empty_or_populated_destination_is_preserved(self):
         self.destination.mkdir()
