@@ -31,7 +31,7 @@ LITE 可合并文档；STANDARD/PREMIUM 按实际规模拆分。先验证灰盒�
 
 ## 安装
 
-个人级目标：Windows 为 `%USERPROFILE%\.agents\skills\game-director`，macOS/Linux 为 `~/.agents/skills/game-director/`。项目级目标可用项目内 `.agents/skills/game-director/`。保留 `SKILL.md`、`agents/`、`references/`、`templates/`、`scripts/`、`VERSION` 和本说明，忽略 `.git/`、Python 缓存和本地临时文件。
+从[GitHub 仓库](https://github.com/wangsalin/game-director)或[版本发布](https://github.com/wangsalin/game-director/releases)取得文件，完整命令见[安装说明](README.md#安装)。个人级目标：Windows 为 `%USERPROFILE%\.agents\skills\game-director`，macOS/Linux 为 `~/.agents/skills/game-director/`。项目级目标可用项目内 `.agents/skills/game-director/`。保留 `SKILL.md`、`agents/`、`references/`、`templates/`、`scripts/`、`VERSION`、README 与 `LICENSE`，忽略 `.git/`、Python 缓存和本地临时文件。
 
 同名 Skill 已存在时先检查差异并保留用户配置，不能直接覆盖。不要同时在多个发现目录安装重复副本。`allow_implicit_invocation` 保持 true；这表示允许匹配，不保证每次自然语言都会触发。安装后在新会话中用 `$game-director` 检查；未出现时重启客户端。不把本地 Codex 安装说成所有 ChatGPT 会话都已安装。
 
@@ -52,7 +52,7 @@ python -B scripts/test_validate_project.py
 验收真实游戏项目（将路径换成你的项目）：
 
 ```powershell
-python -B E:/skill/game-director/scripts/validate_project.py E:/Games/MyGame
+python -B scripts/validate_project.py "C:/Games/MyGame"
 ```
 
 默认查找美术/音频清单，检查文档引用、真实文件、证据、PNG/WAV 规格。`--release` 加强资产完成状态与来源检查；通过不等于游戏或发布验收通过。参数、格式限制、自定义清单和退出码见[项目文件验收](references/project-validation.md)。
@@ -60,3 +60,5 @@ python -B E:/skill/game-director/scripts/validate_project.py E:/Games/MyGame
 实际多轮访谈、自动匹配、原项目续接和工具行为按[场景](references/validation-scenarios.md)在独立上下文验证，记录真实结果，不能将静态通过当成行为通过。
 
 1.2.0 补上真实项目文件验收，修复整数规格误收小数、ready 缺规格、绝对链接与锚点漏检；实际试用后补充派生数值复算与出生点不足处理，明确 LAN 无云凭证也可按实际架构联调。旧资产状态迁移规则见资产规范；不自动改写已有游戏项目的清单。
+
+本仓库采用 [MIT License](LICENSE)；第三方素材与工具按各自许可使用。
