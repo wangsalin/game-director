@@ -43,7 +43,6 @@ jobs:
       matrix:
         node: ["20", "24"]
     env:
-      PROJECT: ${{ runner.temp }}/game-director-smoke
       PYTHONUTF8: "1"
     steps:
       - name: Check out repository
@@ -54,6 +53,8 @@ jobs:
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: ${{ matrix.node }}
+      - name: Set isolated project path
+        run: echo "PROJECT=$RUNNER_TEMP/game-director-smoke" >> "$GITHUB_ENV"
       - name: Set up Python
         uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
