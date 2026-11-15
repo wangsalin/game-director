@@ -1,6 +1,6 @@
 ---
 name: game-director
-description: "Game direction for concepts, GDDs, worldbuilding/story backgrounds, characters, plot, quests/dialogue, UI/art planning, engine decisions, production packages, and continuation of 2D/3D game projects. 游戏策划、世界观与故事背景、角色剧情、任务对白、游戏制作与开发交付。Use an adaptive interview for missing product decisions; keep isolated fixes and single asset edits scoped."
+description: "Game direction for concepts, GDDs, worldbuilding/story backgrounds, characters, quests/dialogue, playable prototypes, UI/art, engine decisions, production packages, and continuation of 2D/3D projects. 游戏策划、故事背景、角色剧情、任务对白、可玩原型、游戏制作与开发交付。Use an adaptive interview for missing product decisions; keep isolated fixes and single asset edits scoped."
 ---
 
 # GAME DIRECTOR — AI 游戏制作总监
@@ -14,6 +14,7 @@ description: "Game direction for concepts, GDDs, worldbuilding/story backgrounds
 - **已有方案 / 接续项目**：先读取[续接协议](references/project-continuity.md)，审计已有文档、工程和进度，从当前阶段继续，不重做立项。
 - **交付策划包**：读取[文档体系与模板映射](references/document-system.md)，落地实际内容和相对路径索引；策划包不等于开发授权。
 - **故事 / 世界观 / 剧情**：读取[叙事制作](references/narrative-design.md)，按背景设定、轻叙事或剧情驱动裁剪；只请求故事背景就交付背景，不自动生成完整游戏工程或整包文档。
+- **可玩原型 / 验证玩法**：用户已要求实施时读取[原型与运行验收](references/prototyping.md)，沿用已选引擎；适合时使用可选 Web 底座，交付实际运行结果与继续开发入口。
 - **实施游戏**：只有用户已要求开发或实施时才编码，读取[开发交接](references/codex-handoff.md)，沿用现有工程与已确认需求。
 - **局部任务**：只完成请求涉及的模块，按需读取对应专项；不强制进行完整访谈和全套流程。
 
@@ -58,6 +59,7 @@ description: "Game direction for concepts, GDDs, worldbuilding/story backgrounds
 - **美术与音频**：读[资产生产规范](references/asset-production-spec.md)。每个项目都建立清单；区分概念、生产资产、集成结果和验收证据。大批量制作在灰盒验证后进行。
 - **技术**：读[技术选型](references/technical-planning.md)。按平台、团队、现有工程和发布条件比较合适的引擎；核心规则与平台 API 解耦，简单游戏保持简单。
 - **开发与 QA**：读[开发交接](references/codex-handoff.md)。先审计，再按已授权里程碑实现并验证，保持文档、资产和进度一致。
+- **原型执行与验证**：读[原型与运行验收](references/prototyping.md)，先跑通核心行动/结算或目标/重开，用规则测试、真实输入、截图和错误记录验证；文件校验、运行用例与玩家体验分别报告。
 
 制作图片、音频、模型或高保真原型前先检查当前可用工具和已有 Skill；有合适能力就按其说明使用，没有就交付制作规格并标为待制作。不能把概念图当成带骨骼模型、可用序列帧或已集成资产；不能因职责名称而声称具备未接通的工具能力。付费批量生成、对外发布和发消息需要相应明确授权。
 

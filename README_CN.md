@@ -1,6 +1,6 @@
 # GAME DIRECTOR — AI 游戏制作总监
 
-版本 **1.3.0**。将游戏创意逐步转成可执行的策划、故事/世界观与角色剧情、UI/美术规格、技术方案和开发交接；已授权实施时，按里程碑推进真实游戏开发。不是某个游戏工程，也不自带引擎、模型/绑定工具或付费生成服务。
+版本 **1.4.0**。将游戏创意逐步转成可执行的策划、故事/世界观与角色剧情、UI/美术规格、技术方案和开发交接；已授权实施时，按里程碑推进真实游戏开发。含可选 Web 原型底座与运行验收工具，不自带原生引擎、模型/绑定工具或付费生成服务。
 
 ## 使用
 
@@ -31,9 +31,11 @@ LITE 可合并文档；STANDARD/PREMIUM 按实际规模拆分。先验证灰盒�
 
 全部参考文档和模板都能从 SKILL.md 沿相对链接到达，无需一次性读取全部文件。模板包含写作指导和显式示例，生成项目时要替换为真实内容；空模板不代表开发包完成。
 
+- [原型与运行验收](references/prototyping.md)：可选 Web 底座、安全创建、规则测试、真实输入、截图/错误报告与自包含继续开发交接。
+
 ## 安装
 
-从[GitHub 仓库](https://github.com/wangsalin/game-director)或[版本发布](https://github.com/wangsalin/game-director/releases)取得文件，完整命令见[安装说明](README.md#安装)。个人级目标：Windows 为 `%USERPROFILE%\.agents\skills\game-director`，macOS/Linux 为 `~/.agents/skills/game-director/`。项目级目标可用项目内 `.agents/skills/game-director/`。保留 `SKILL.md`、`agents/`、`references/`、`templates/`、`scripts/`、`VERSION`、README 与 `LICENSE`，忽略 `.git/`、Python 缓存和本地临时文件。
+从[GitHub 仓库](https://github.com/wangsalin/game-director)或[版本发布](https://github.com/wangsalin/game-director/releases)取得文件，完整命令见[安装说明](README.md#安装)。个人级目标：Windows 为 `%USERPROFILE%\.agents\skills\game-director`，macOS/Linux 为 `~/.agents/skills/game-director/`。项目级目标可用项目内 `.agents/skills/game-director/`。保留 `SKILL.md`、`agents/`、`references/`、`templates/`、`assets/`、`scripts/`、`VERSION`、README 与 `LICENSE`，忽略 `.git/`、node_modules、Python 缓存和本地临时文件。
 
 同名 Skill 已存在时先检查差异并保留用户配置，不能直接覆盖。不要同时在多个发现目录安装重复副本。`allow_implicit_invocation` 保持 true；这表示允许匹配，不保证每次自然语言都会触发。安装后在新会话中用 `$game-director` 检查；未出现时重启客户端。不把本地 Codex 安装说成所有 ChatGPT 会话都已安装。
 
@@ -45,11 +47,10 @@ LITE 可合并文档；STANDARD/PREMIUM 按实际规模拆分。先验证灰盒�
 
 ```powershell
 python scripts/validate_skill.py
-python -B scripts/test_validate_skill.py
-python -B scripts/test_validate_project.py
+python -B -m unittest discover -s scripts -p "test_*.py" -v
 ```
 
-脚本需要 Python 3.10+，只依赖标准库。Skill 校验检查资源存在/可达、CSV 列数/ID/枚举/数值和关键状态约束；可以从任意工作目录调用，校验脚本也可传入另一个 Skill 副本路径。回归测试仅操作临时副本和生成的 PNG/WAV 文件。它们不验证完整 YAML，也不证明运行时对话效果。若环境提供 `skill-creator/scripts/quick_validate.py`，同时用它检查 frontmatter；`agents/openai.yaml` 另需核对 UI 元数据和 `$game-director` 默认提示。
+Python 脚本需要 Python 3.10+，只依赖标准库。Skill 校验检查资源存在/可达、CSV 列数/ID/枚举/数值和关键状态约束；可以从任意工作目录调用，校验脚本也可传入另一个 Skill 副本路径。回归测试仅操作临时副本和生成的 PNG/WAV 文件。它们不验证完整 YAML，也不证明运行时对话效果。若环境提供 `skill-creator/scripts/quick_validate.py`，同时用它检查 frontmatter；`agents/openai.yaml` 另需核对 UI 元数据和 `$game-director` 默认提示。
 
 验收带资产清单的游戏项目（将路径换成你的项目）：
 
@@ -60,6 +61,8 @@ python -B scripts/validate_project.py "C:/Games/MyGame"
 默认查找美术/音频清单，检查文档引用、真实文件、证据、PNG/WAV 规格。`--release` 加强资产完成状态与来源检查；通过不等于游戏或发布验收通过。参数、格式限制、自定义清单和退出码见[项目文件验收](references/project-validation.md)。
 
 实际多轮访谈、自动匹配、原项目续接和工具行为按[场景](references/validation-scenarios.md)在独立上下文验证，记录真实结果，不能将静态通过当成行为通过。
+
+1.4.0 增加可选 Web 可玩底座、创建脚本、真实浏览器验收和继续开发交接；Node 20+ 用于规则/工具检查，Playwright 仅在自动浏览器验收时安装，游戏运行不需要第三方包。完整命令与限制见[原型说明](references/prototyping.md)。
 
 1.3.0 增加独立叙事制作模块与五份模板，接通访谈、类型专项、GDD、数据/任务状态、续接与 QA。按仅背景/轻叙事/剧情驱动裁剪，不要求简单游戏编写长剧情。1.2.0 的真实项目文件验收继续保留；脚本不会审查剧情因果、分支条件或叙事质量，这些需做纸面/状态走查与实际试读/试玩。
 

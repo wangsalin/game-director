@@ -1,0 +1,7 @@
+{
+  "name": "game-director-prototype",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": { "test": "node --test tests/rules.test.js" }
+}

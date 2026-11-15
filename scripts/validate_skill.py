@@ -133,6 +133,8 @@ def resource_errors(root):
         resources.update(
             p.resolve() for p in directory.rglob("*")
             if p.is_file() and p.suffix in {".md", ".csv", ".py"}
+            and not any(part in {"node_modules", "__pycache__", ".git", ".venv"}
+                        for part in p.relative_to(directory).parts)
         )
     for required in ("SKILL.md", "agents/openai.yaml", "VERSION"):
         if not (root / required).is_file():

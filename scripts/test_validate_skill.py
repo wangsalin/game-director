@@ -19,12 +19,18 @@ class ValidationTests(unittest.TestCase):
         self.package = temporary_root / "package"
         shutil.copytree(
             Path(__file__).resolve().parents[1], self.package,
-            ignore=shutil.ignore_patterns(".git", "__pycache__"),
+            ignore=shutil.ignore_patterns(".git", "__pycache__", "node_modules", "output", "test-results"),
         )
         self.assert_valid()
 
     def errors(self):
         return validate_skill.validate(self.package)[0]
+
+    def test_installed_node_dependencies_are_not_skill_resources(self):
+        dependency = self.package / "scripts/web-check/node_modules/third-party"
+        dependency.mkdir(parents=True)
+        (dependency / "README.md").write_text("[not a Skill resource](missing.md)", encoding="utf-8")
+        self.assert_valid()
 
     def assert_valid(self):
         self.assertEqual(self.errors(), [])

@@ -1,0 +1,77 @@
+{
+  "schema": 1,
+  "viewport": { "width": 960, "height": 1000 },
+  "scenarios": [
+    { "id": "keyboard-win", "steps": [
+      { "action": "expectState", "path": "scene", "equals": "title" },
+      { "action": "screenshot", "name": "title" },
+      { "action": "click", "selector": "#start" },
+      { "action": "press", "key": "ArrowUp" },
+      { "action": "press", "key": "ArrowRight" },
+      { "action": "press", "key": "ArrowRight" },
+      { "action": "press", "key": "ArrowRight" },
+      { "action": "press", "key": "ArrowRight" },
+      { "action": "press", "key": "ArrowRight" },
+      { "action": "press", "key": "ArrowDown" },
+      { "action": "expectState", "path": "scene", "equals": "won" },
+      { "action": "expectState", "path": "moves", "equals": 7 },
+      { "action": "expectState", "path": "wins", "equals": 1 },
+      { "action": "press", "key": "ArrowRight" },
+      { "action": "expectState", "path": "wins", "equals": 1 }
+    ] },
+    { "id": "hazard-retry", "steps": [
+      { "action": "click", "selector": "#start" },
+      { "action": "press", "key": "ArrowDown" },
+      { "action": "press", "key": "ArrowRight" },
+      { "action": "expectState", "path": "scene", "equals": "lost" },
+      { "action": "expectState", "path": "reason", "equals": "hazard" },
+      { "action": "screenshot", "name": "lost" },
+      { "action": "press", "key": "ArrowUp" },
+      { "action": "expectState", "path": "scene", "equals": "lost" },
+      { "action": "click", "selector": "#restart" },
+      { "action": "expectState", "path": "scene", "equals": "playing" },
+      { "action": "expectState", "path": "energy", "equals": 12 }
+    ] },
+    { "id": "blocked-pause", "steps": [
+      { "action": "click", "selector": "#start" },
+      { "action": "press", "key": "ArrowLeft" },
+      { "action": "expectState", "path": "moves", "equals": 0 },
+      { "action": "press", "key": "ArrowRight" },
+      { "action": "press", "key": "ArrowRight" },
+      { "action": "expectState", "path": "position", "equals": [1, 2] },
+      { "action": "expectState", "path": "energy", "equals": 11 },
+      { "action": "click", "selector": "#pause" },
+      { "action": "press", "key": "ArrowUp" },
+      { "action": "expectState", "path": "position", "equals": [1, 2] },
+      { "action": "expectText", "selector": "#scene", "equals": "已暂停" },
+      { "action": "press", "key": "p" },
+      { "action": "press", "key": "ArrowUp" },
+      { "action": "expectState", "path": "collected.length", "equals": 1 }
+    ] },
+    { "id": "save-reload", "steps": [
+      { "action": "click", "selector": "#start" },
+      { "action": "press", "key": "ArrowUp" },
+      { "action": "press", "key": "ArrowRight" },
+      { "action": "press", "key": "ArrowRight" },
+      { "action": "press", "key": "ArrowRight" },
+      { "action": "press", "key": "ArrowRight" },
+      { "action": "press", "key": "ArrowRight" },
+      { "action": "press", "key": "ArrowDown" },
+      { "action": "expectState", "path": "wins", "equals": 1 },
+      { "action": "reload" },
+      { "action": "expectState", "path": "scene", "equals": "title" },
+      { "action": "expectState", "path": "wins", "equals": 1 }
+    ] },
+    { "id": "buttons-win", "steps": [
+      { "action": "click", "selector": "#start" },
+      { "action": "click", "selector": "[data-move=up]" },
+      { "action": "click", "selector": "[data-move=right]" },
+      { "action": "click", "selector": "[data-move=right]" },
+      { "action": "click", "selector": "[data-move=right]" },
+      { "action": "click", "selector": "[data-move=right]" },
+      { "action": "click", "selector": "[data-move=right]" },
+      { "action": "click", "selector": "[data-move=down]" },
+      { "action": "expectState", "path": "scene", "equals": "won" }
+    ] }
+  ]
+}

@@ -1,0 +1,23 @@
+:root { color-scheme: light; font: 16px/1.6 system-ui, "Microsoft YaHei", sans-serif; color: #24364a; background: #f5f7fa; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+main { width: min(100% - 32px, 760px); margin: 32px auto; }
+h1 { margin: 0 0 8px; font-size: clamp(30px, 5vw, 44px); line-height: 1.2; }
+header p { margin: 8px 0; }
+.eyebrow { font-size: 12px; letter-spacing: .12em; color: #596d83; }
+.game { padding: 20px; margin: 24px 0; background: white; border: 1px solid #d8e1ec; border-radius: 16px; }
+.hud { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-variant-numeric: tabular-nums; }
+#scene { font-weight: 700; }
+canvas { display: block; width: 100%; max-width: 540px; height: auto; margin: 16px auto 0; border-radius: 8px; background: #eef3f8; }
+canvas:focus-visible, button:focus-visible { outline: 3px solid #1672b8; outline-offset: 3px; }
+#message { min-height: 3.2em; margin: 12px 0; }
+button { padding: 10px 18px; min-width: 46px; min-height: 46px; border: 1px solid #a6b8ca; border-radius: 8px; color: #24364a; background: #f3f7fb; font: inherit; cursor: pointer; touch-action: manipulation; }
+button:hover { background: #e5eff8; }
+button:disabled { cursor: default; opacity: .45; }
+#start { color: white; background: #185e9e; border-color: #185e9e; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.controls { margin-top: 18px; text-align: center; }
+.controls > div { display: flex; justify-content: center; gap: 8px; margin-top: 8px; }
+.controls button { min-width: 56px; }
+.help, footer { font-size: 14px; color: #56697c; }
+@media (max-width: 460px) { main { width: calc(100% - 20px); margin: 20px auto; } .game { padding: 12px; } }

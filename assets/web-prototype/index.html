@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style.css">
+  <title>信标小径 · 可玩原型</title>
+</head>
+<body>
+  <main>
+    <header><p class="eyebrow">GAME DIRECTOR / 灰盒原型</p><h1 id="title">信标小径</h1>
+      <p>收集信号片，用有限的能量找到通往灯塔的路。</p></header>
+    <section class="game" aria-label="游戏区域">
+      <div class="hud"><span id="scene" data-testid="scene">title</span><span id="stats"></span></div>
+      <canvas id="board" width="720" height="600" tabindex="0" aria-label="游戏棋盘，使用方向键移动"></canvas>
+      <p id="message" role="status" aria-live="polite"></p>
+      <div class="actions"><button id="start">开始游戏</button><button id="pause" hidden>暂停</button>
+        <button id="restart" hidden>重新开始</button></div>
+      <div class="controls" aria-label="触控方向键">
+        <button data-move="up" aria-label="向上">↑</button>
+        <div><button data-move="left" aria-label="向左">←</button><button data-move="down" aria-label="向下">↓</button>
+          <button data-move="right" aria-label="向右">→</button></div>
+      </div>
+      <p class="help">方向键或 WASD 移动 · P 暂停 · R 重开<br>蓝色：你　金色：信号片　红色：风暴　深色：岩石　绿色：灯塔</p>
+      <p id="record" class="help"></p>
+    </section>
+    <footer>每次有效移动消耗 1 点能量；碰到岩石不扣能量。临时几何素材，无联网或付费功能。</footer>
+  </main>
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>

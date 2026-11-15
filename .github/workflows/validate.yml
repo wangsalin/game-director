@@ -33,3 +33,64 @@ jobs:
         run: python -B scripts/validate_skill.py
       - name: Run regression tests
         run: python -B -m unittest discover -s scripts -p "test_*.py" -v
+
+  web-prototype:
+    name: Web prototype / Node ${{ matrix.node }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ["20", "24"]
+    env:
+      PROJECT: ${{ runner.temp }}/game-director-smoke
+      PYTHONUTF8: "1"
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Set up Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Set up Python
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.13"
+      - name: Create a standalone project and test rules and checker
+        run: |
+          python -B scripts/create_web_prototype.py "$PROJECT"
+          npm --prefix "$PROJECT" test
+          npm --prefix "$PROJECT/tools/web-check" ci
+          npm --prefix "$PROJECT/tools/web-check" test
+      - name: Install CI browser
+        if: matrix.node == '24'
+        working-directory: ${{ env.PROJECT }}/tools/web-check
+        run: npx playwright install --with-deps chromium
+      - name: Run real desktop and touch browser plans
+        if: matrix.node == '24'
+        run: |
+          node "$PROJECT/tools/web-check/check.mjs" --project "$PROJECT" --plan "$PROJECT/browser-plan.json" --out "$RUNNER_TEMP/web-desktop"
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          root = Path(os.environ['PROJECT'])
+          plan = json.loads((root / 'browser-plan.json').read_text(encoding='utf-8'))
+          mobile = {'schema': 1, 'touch': True, 'viewport': {'width': 390, 'height': 844}, 'scenarios': [plan['scenarios'][-1]]}
+          for step in mobile['scenarios'][0]['steps']:
+              if step['action'] == 'click':
+                  step['action'] = 'tap'
+          (root / 'mobile-plan.json').write_text(json.dumps(mobile, ensure_ascii=False), encoding='utf-8')
+          PY
+          node "$PROJECT/tools/web-check/check.mjs" --project "$PROJECT" --plan "$PROJECT/mobile-plan.json" --out "$RUNNER_TEMP/web-touch"
+      - name: Preserve browser reports and screenshots
+        if: always() && matrix.node == '24'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: web-browser-evidence
+          path: |
+            ${{ runner.temp }}/web-desktop
+            ${{ runner.temp }}/web-touch
+          if-no-files-found: warn
+          retention-days: 14
